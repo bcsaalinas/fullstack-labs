@@ -1,0 +1,23 @@
+:root {
+  --main-bg-color: #f6f0d7;
+  --secondary-accent: #c5d89d;
+  --card-color: #9cab84;
+  --third-accent-color: #89986d;
+  --text-color: #394129;
+  --button-color: #ffffff;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+
+.form-card {
+  background-color: var(--card-color);
+}
+
+h1 {
+  color: var(--text-color);
+}

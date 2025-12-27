@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog App</title>
+    <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body>
+    <%- include('../partials/header') %>
+    
+     <div class="container">
+    <div class="card">
+      <h1 class="card-title">Create awesome Blog Posts!</h1>
+      <p class="card-text">
+        Here you can view, post or delete your posts!
+      </p>
+      <p class="card-text">
+        PD: There is no DB implemented yet, so if you refresh the page, your posts will be deleted!
+      </p>
+
+      <div class="card-actions">
+        <a href="/create"><button class="create-btn btn" type="submit" > Create New Post</button></a>
+        <button class="view-btn btn">View Posts</button>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="posts-title">Recent Posts</h1>
+    <div class="posts-container">
+        <% if (posts.length === 0) { %>
+         <p>No posts yet!</p>
+        <% } else {%>
+            
+        <p>There is a post!</p>
+        <%}%>
+    </div>
+  </div>
+    <%- include('../partials/footer') %>
+</body>
+</html>
