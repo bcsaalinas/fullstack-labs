@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    <link rel="stylesheet" href="create.css">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Post</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create New Post</title>
+  <link rel="stylesheet" href="/create.css"/>
 </head>
 <body>
-    <div class="container">
-        <div class="form-card">
-        <h1>Create New Post</h1>
+  <div class="container">
+    <div class="form-card">
+      <div class="form-top">
+        <h1 class="form-title">Create New Post</h1>
+        <button class="close-btn" aria-label="Close">✖︎</button>
+      </div>
 
-        <form action="/submit" method="post">
-            <input type="text" name="name" id="author" placeholder="Author">
-            
-           <textarea name="post-text" id="post-text" placeholder="Write your ideas here"></textarea>
-            
-            <button type="submit">Submit</button>
-        </form>
+      <form action="/submit" method="post" class="form-body">
+
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input class="textarea" type="text " name="title" id="title">
         </div>
+        
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input class="input input--highlight" type="text" name="author" id="author" placeholder="Your name"/>
+        </div>
+
+        <div class="form-group">
+          <label for="post-text">Post</label>
+          <textarea class="textarea" name="content" id="content" placeholder="Write your ideas here"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-button">
+            ✨ Submit
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </body>
 </html>

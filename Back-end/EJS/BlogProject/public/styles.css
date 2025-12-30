@@ -1,5 +1,4 @@
 /* Color scheme of the website*/
-
 :root {
   --main-bg-color: #f6f0d7;
   --secondary-accent: #c5d89d;
@@ -7,6 +6,7 @@
   --third-accent-color: #89986d;
   --text-color: #394129;
   --button-color: #ffffff;
+  --important-color: #810f0f;
 }
 
 * {
@@ -17,7 +17,20 @@
 
 body {
   background-color: var(--main-bg-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
+main {
+  flex: 1;
+}
+
+html,
+body {
+  height: 100%;
+}
+
 li,
 a,
 button,
@@ -80,18 +93,77 @@ button {
 
 /* posts section */
 
+/*empty state (in case there are no post created yet)*/
+
+.post-container-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  background-color: var(--card-color);
+  border: 3px solid var(--secondary-accent);
+  border-radius: 14px;
+  margin: 40px;
+}
+
 .posts-title {
   text-align: center;
   margin-top: 30px;
 }
 
 .posts-container {
+  background-color: var(--third-accent-color);
   display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
 }
 
+.post-card {
+  border: 5px solid var(--secondary-accent);
+  border-radius: 10px;
+  margin: 18px;
+  padding: 24px;
+  background-color: var(--card-color);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.post-header {
+  grid-column: 1 / span 5;
+}
+
+.post-body {
+  grid-column: 1 / span 6;
+  margin-bottom: 10px;
+}
+
+.post-meta {
+  margin-top: 10px;
+}
+.delete-btn {
+  background-color: var(--important-color);
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
+
+.view-btn {
+  background-color: var(--button-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+}
 /* footer */
 
 footer {
+  width: 100%;
+  height: 60px;
+  background-color: var(--secondary-accent);
   display: flex;
   align-items: center;
   justify-content: center;

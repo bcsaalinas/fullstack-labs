@@ -8,6 +8,7 @@
   
 </head>
 <body>
+    <main>
     <%- include('../partials/header') %>
     
      <div class="container">
@@ -17,26 +18,46 @@
         Here you can view, post or delete your posts!
       </p>
       <p class="card-text">
-        PD: There is no DB implemented yet, so if you refresh the page, your posts will be deleted!
+        PD: There is no DB implemented yet, so if you refresh the server, your posts will be deleted!
       </p>
 
       <div class="card-actions">
         <a href="/create"><button class="create-btn btn" type="submit" > Create New Post</button></a>
-        <button class="view-btn btn">View Posts</button>
       </div>
     </div>
   </div>
-
   <h1 class="posts-title">Recent Posts</h1>
-    <div class="posts-container">
         <% if (posts.length === 0) { %>
-         <p>No posts yet!</p>
+        <div class="posts-container-empty"></div>
+        <div class="empty-state">
+        <p>No posts yet!</p> 
+        </div>
+    
         <% } else {%>
-            
-        <p>There is a post!</p>
+        <div class="posts-container"></div>
+        <% posts.forEach(post => { %>
+        <div class="post-card">
+        <div class="post-header">
+        <h2 class="post-title"> <%= post.title %></h2>
+        </div>
+        <div class="delete-button"><a href="/delete/<%= post.id %>" class="delete-link"><button class="delete-btn">Delete</button></a></div>
+        <div class="post-body">
+        <p class="post-text"><%= post.text.substring(0, 150) %>...</p>
+        <div class="post-meta">
+        <p class="date"><%= post.date %></p>
+        <p class="auhtor"> By <strong><%= post.author %></strong></p>
+        </div>
+        <div class="view-post">
+             <a href="/post/<%= post.id %>"> <button class="view-btn">View</button></a>
+        </div>
+    </div>
+        </div>
+        <% }) %>
+      
         <%}%>
     </div>
   </div>
+  </main>
     <%- include('../partials/footer') %>
 </body>
 </html>
