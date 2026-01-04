@@ -22,7 +22,10 @@
       <h3>Ingredients:</h3>
       <ul id="ingredientsList"></ul>
       <!-- here the elements are objects. cant loop here -->
-      <li><%= info.ingredients.protein.name %></li>
+      <li>
+        <%= info.ingredients.protein.preparation %> <%=
+        info.ingredients.protein.name %>
+      </li>
       <li><%= info.ingredients.salsa.name %></li>
       <!-- we can loop here since toppings is an array in our JSON -->
       <% info.ingredients.toppings.forEach(topping => { %>
