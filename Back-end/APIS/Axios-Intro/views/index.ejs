@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JokeAPI</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Random Joke</h1>
+      <% if (locals.joke) { %>
+      <h2>Click the button to get another joke!</h2>
+      <div class="joke-container">
+        <p class="setup"><%= joke.setup %></p>
+        <p class="punchline"><%= joke.punchline %></p>
+      </div>
+      <% } else if (locals.error) { %>
+      <h2>There was an error, please try again</h2>
+
+      <% } else { %>
+      <h2>Click the button to get a random joke!</h2>
+      <% } %>
+      <form action="/" method="get">
+        <button type="submit">Get joke</button>
+      </form>
+    </div>
+  </body>
+</html>
