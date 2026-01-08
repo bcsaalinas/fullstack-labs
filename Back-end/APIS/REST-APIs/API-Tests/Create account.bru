@@ -1,0 +1,21 @@
+meta {
+  name: Create account
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://secrets-api.appbrewery.com/register
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  username: bcsaalinas
+  password: password
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

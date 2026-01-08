@@ -71,6 +71,7 @@ app.get("/bearerToken", async (req, res) => {
   //usage of a bearer token
 
   //getting secret with the id of 42
+  //just testing
   try {
     const response = await axios.get(API_URL + "secrets/42", {
       headers: { Authorization: `Bearer ${yourBearerToken}` },
