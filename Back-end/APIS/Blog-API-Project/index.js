@@ -93,16 +93,16 @@ app.patch("/posts/:id", (req, res) => {
 //CHALLENGE 5: DELETE a specific post by providing the post id.
 
 app.delete("/posts/:id", (req, res) => {
-  const targetId = parseInt(req.params.id);
-
+  const targetId = parseInt(req.body.id);
   const targetIndex = posts.findIndex((p) => p.id === targetId);
-  console.log(posts[targetIndex]);
+
+  if (!targetIndex) {
+    res.json({ error: "No id matched" });
+  }
 
   posts.splice(targetIndex, 1);
 
-  if (!targetIndex) res.json({ error: "No id matched " });
-
-  res.json(posts);
+  res.status(200).json(posts);
 });
 
 app.listen(port, () => {
