@@ -4,46 +4,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Capital City Quiz</title>
+  <meta name="description" content="Test your knowledge of world capitals in this fun quiz game">
+  <title>World Capital Quiz</title>
   <link rel="stylesheet" href="/styles/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
 </head>
 
 <body id="app">
   <form class="container" action="/submit" method="post">
-    <div class="horizontal-container">
-      <h3>
-        Total Score:
-        <span id="score">
-          <%= locals.totalScore ? totalScore : "0" %>
-        </span>
-      </h3>
-
+    <!-- Header with title and score -->
+    <div class="header">
+      <div class="quiz-title">
+        <span class="icon">🌍</span>
+        <span>Capital Quiz</span>
+      </div>
+      <div class="score-badge">
+        <span class="label">Score</span>
+        <span id="score"><%= locals.totalScore ? totalScore : "0" %></span>
+      </div>
     </div>
 
-    <h1 id="countryName">
-      <%=question.country %>
-    </h1>
-    <div class="answer-container">
-      <input type="text" name="answer" id="userInput" placeholder="Enter the capital" autofocus autocomplete="off">
-
+    <!-- Country display section -->
+    <div class="country-section">
+      <p class="country-label">What is the capital of</p>
+      <h1 class="country-name" id="countryName"><%= question.country %></h1>
     </div>
-    <button type="submit">SUBMIT<% if(locals.wasCorrect){ %>
-        <span class="checkmark">✔</span>
-        <% } else if (locals.wasCorrect===false) { %>
-          <span class="cross" id="error">✖</span>
-          <% } %>
-    </button>
 
+    <!-- Feedback message (shows after answer) -->
+    <% if(locals.wasCorrect === true) { %>
+    <div class="feedback-message success">
+      <span>✓</span>
+      <span>Correct! Well done!</span>
+    </div>
+    <% } else if(locals.wasCorrect === false) { %>
+    <div class="feedback-message error">
+      <span>✗</span>
+      <span>The correct answer was: <strong><%= locals.correctAnswer %></strong></span>
+    </div>
+    <% } %>
+
+    <!-- Answer input section -->
+    <div class="answer-section">
+      <div class="input-wrapper">
+        <input
+          type="text"
+          name="answer"
+          id="userInput"
+          placeholder="Enter the capital city..."
+          autofocus
+          autocomplete="off"
+          class="<%= locals.wasCorrect === true ? 'success' : (locals.wasCorrect === false ? 'error' : '') %>"
+          required
+        >
+        <span class="input-icon">🏛️</span>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        <span>Submit Answer</span>
+        <% if(locals.wasCorrect === true) { %>
+        <span class="feedback-icon checkmark">✓</span>
+        <% } else if(locals.wasCorrect === false) { %>
+        <span class="feedback-icon cross">✗</span>
+        <% } %>
+      </button>
+
+      <div class="keyboard-hint">
+        <span>Press</span>
+        <span class="key">Enter</span>
+        <span>to submit</span>
+      </div>
+    </div>
   </form>
+
+  <!-- Game Over Modal -->
+  <div class="modal-overlay" id="gameOverModal" style="display: none;">
+    <div class="modal">
+      <div class="modal-icon">🎮</div>
+      <h2 class="modal-title">Game Over!</h2>
+      <p class="modal-subtitle">Great effort! Here's your final score:</p>
+      <div class="modal-score">
+        <span class="trophy">🏆</span>
+        <span id="finalScore">0</span>
+      </div>
+      <a href="/" class="restart-button">
+        <span>🔄</span>
+        <span>Play Again</span>
+      </a>
+    </div>
+  </div>
+
   <script>
-    var wasCorrect = "<%= locals.wasCorrect %>";
-    console.log(wasCorrect)
-    if (wasCorrect === "false") {
-      alert('Game over! Final best score: <%= locals.totalScore %>');
-      document.getElementById("app").innerHTML = '<a href="/" class="restart-button">Restart</a>'
-    }
+    (function() {
+      var wasCorrect = "<%= locals.wasCorrect %>";
+      var totalScore = "<%= locals.totalScore ? locals.totalScore : 0 %>";
 
+      if (wasCorrect === "false") {
+        // Show the game over modal
+        var modal = document.getElementById("gameOverModal");
+        var finalScoreEl = document.getElementById("finalScore");
 
+        if (modal && finalScoreEl) {
+          finalScoreEl.textContent = totalScore;
+          modal.style.display = "flex";
+
+          // Prevent form interaction when modal is shown
+          document.querySelector(".container").style.pointerEvents = "none";
+          document.querySelector(".container").style.opacity = "0.5";
+        }
+      }
+
+      // Auto-focus the input field
+      var input = document.getElementById("userInput");
+      if (input && wasCorrect !== "false") {
+        input.focus();
+        input.select();
+      }
+    })();
   </script>
 </body>
 

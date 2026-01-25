@@ -4,46 +4,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flag Quiz</title>
+  <title>Flag Quiz - Test Your Geography Knowledge</title>
   <link rel="stylesheet" href="/styles/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body id="app">
+  <div class="background-overlay"></div>
+
+  <div class="game-header">
+    <h1 class="game-title">Flag Quiz Challenge</h1>
+    <div class="score-badge">
+      <span class="score-label">Score</span>
+      <span class="score-value" id="score">
+        <%= locals.totalScore ? totalScore : "0" %>
+      </span>
+    </div>
+  </div>
+
   <form class="container" action="/submit" method="post">
-    <div class="horizontal-container">
-      <h3>
-        Total Score:
-        <span id="score">
-          <%= locals.totalScore ? totalScore : "0" %>
-        </span>
-      </h3>
-
+    <div class="flag-display">
+      <div class="flag-emoji" id="countryFlag">
+        <%= question.flag %>
+      </div>
+      <p class="quiz-instruction">Which country does this flag belong to?</p>
     </div>
 
-    <h1 id="countryFlag">
-      <%=question.flag %>
-    </h1>
     <div class="answer-container">
-      <input type="text" name="answer" id="userInput" placeholder="Name the country" autofocus autocomplete="off">
-
+      <input
+        type="text"
+        name="answer"
+        id="userInput"
+        placeholder="Enter country name..."
+        autofocus
+        autocomplete="off"
+        aria-label="Country name input">
     </div>
-    <button type="submit">SUBMIT<% if(locals.wasCorrect){ %>
-        <span class="checkmark">✔</span>
-        <% } else if (locals.wasCorrect===false) { %>
-          <span class="cross" id="error">✖</span>
-          <% } %>
+
+    <button type="submit" class="submit-btn">
+      <span class="btn-text">SUBMIT ANSWER</span>
+      <% if(locals.wasCorrect){ %>
+        <span class="checkmark">✓</span>
+      <% } else if (locals.wasCorrect===false) { %>
+        <span class="cross" id="error">✗</span>
+      <% } %>
     </button>
 
+    <% if(locals.wasCorrect === true) { %>
+      <div class="feedback-message success">Correct! Well done!</div>
+    <% } %>
   </form>
+
+  <!-- Game Over Modal -->
+  <div id="gameOverModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-icon">🏆</div>
+      <h2 class="modal-title">Game Over!</h2>
+      <p class="modal-text">Final Score:</p>
+      <div class="final-score"><%= locals.totalScore || "0" %></div>
+      <a href="/" class="restart-button">Play Again</a>
+    </div>
+  </div>
+
   <script>
     var wasCorrect = "<%= locals.wasCorrect %>";
-    console.log(wasCorrect)
+
     if (wasCorrect === "false") {
-      alert('Game over! Final best score: <%= locals.totalScore %>');
-      document.getElementById("app").innerHTML = '<a href="/" class="restart-button">Restart</a>'
+      setTimeout(function() {
+        document.getElementById("gameOverModal").classList.add("show");
+        document.querySelector(".container").style.filter = "blur(5px)";
+        document.querySelector(".game-header").style.filter = "blur(5px)";
+      }, 800);
     }
 
-
+    // Add enter key animation
+    const input = document.getElementById("userInput");
+    if (input) {
+      input.addEventListener("focus", function() {
+        this.parentElement.classList.add("focused");
+      });
+      input.addEventListener("blur", function() {
+        this.parentElement.classList.remove("focused");
+      });
+    }
   </script>
 </body>
 
