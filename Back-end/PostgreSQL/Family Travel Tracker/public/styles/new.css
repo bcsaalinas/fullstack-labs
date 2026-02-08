@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #1a1d23;
+  font-family: "Inter", "Roboto", sans-serif;
+  color: #e0e0e0;
+}
+
+form {
+  background: #21252b;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  border: 1px solid #2c313a;
+  width: 360px;
+}
+
+h1 {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  white-space: nowrap;
+}
+
+form p {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin: 0 0 0.5rem;
+}
+
+form input[type="text"] {
+  width: 100%;
+  font-family: "Inter", "Roboto", sans-serif;
+  font-size: 0.85rem;
+  padding: 0.6rem 0.75rem;
+  background: #282c34;
+  border: 1px solid #2c313a;
+  border-radius: 6px;
+  color: #e0e0e0;
+  outline: none;
+  margin: 0 0 1.25rem;
+}
+form input[type="text"]::placeholder {
+  color: #666;
+}
+form input[type="text"]:focus {
+  border-color: #555;
+}
+
+input[type="radio"] {
+  display: none;
+}
+input[type="radio"]:checked + label span {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 2px #1a1d23, 0 0 0 4px currentColor;
+}
+
+label {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+label:hover span {
+  transform: scale(1.2);
+}
+label span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+label span.red { background: #db2828; color: #db2828; }
+label span.orange { background: #f2711c; color: #f2711c; }
+label span.yellow { background: #fbbd08; color: #fbbd08; }
+label span.olive { background: #b5cc18; color: #b5cc18; }
+label span.green { background: #21ba45; color: #21ba45; }
+label span.teal { background: #00b5ad; color: #00b5ad; }
+label span.blue { background: #2185d0; color: #2185d0; }
+label span.violet { background: #6435c9; color: #6435c9; }
+label span.purple { background: #a333c8; color: #a333c8; }
+label span.pink { background: #e03997; color: #e03997; }
+
+.spacer {
+  margin-bottom: 1.25rem;
+}
+
+form button[type="submit"] {
+  width: 100%;
+  font-family: "Inter", "Roboto", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.65rem;
+  background: #3a7bd5;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: background 0.15s ease;
+}
+form button[type="submit"]:hover {
+  background: #4a8be5;
+}
