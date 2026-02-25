@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit — <%= book.title %> · BookTracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/editor.css" />
+  </head>
+
+  <body class="editor-page">
+    <div class="page-noise"></div>
+
+    <!-- ── Minimal nav for editor context ── -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a href="/" class="site-logo">
+          <span class="logo-icon">&#9753;</span>
+          <span class="logo-text">BookTracker</span>
+        </a>
+        <div class="editor-breadcrumb">
+          <span class="breadcrumb-sep">&#8594;</span>
+          <span class="breadcrumb-label">Editing</span>
+          <span class="breadcrumb-title"><%= book.title %></span>
+        </div>
+        <a href="/" class="btn-back">
+          <span>&#8592;</span>
+          Back to shelf
+        </a>
+      </div>
+    </nav>
+
+    <main class="editor-main">
+      <form action="/edit" method="POST" id="editForm">
+        <input type="hidden" name="id" value="<%= book.id %>" />
+
+        <div class="editor-layout">
+
+          <!-- ══════════════════════════════════════
+               LEFT COLUMN — Book identity panel
+          ══════════════════════════════════════ -->
+          <aside class="editor-sidebar">
+
+            <!-- Book cover -->
+            <div class="editor-cover-wrap" style="--card-hue: <%= book.hue || 28 %>;">
+              <div class="editor-cover-inner">
+                <% if (book.coverId) { %>
+                  <img
+                    class="editor-cover-img"
+                    src="https://covers.openlibrary.org/b/id/<%= book.coverId %>-L.jpg"
+                    alt="Cover of <%= book.title %>"
+                  />
+                <% } else { %>
+                  <div class="editor-cover-placeholder">
+                    <div class="cover-ph-ornament">
+                      <span class="cover-ph-line"></span>
+                      <span class="cover-ph-diamond">&#9670; &#9670; &#9670;</span>
+                      <span class="cover-ph-line"></span>
+                    </div>
+                    <p class="cover-ph-title"><%= book.title %></p>
+                    <div class="cover-ph-divider"></div>
+                    <p class="cover-ph-author"><%= book.author %></p>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+
+            <!-- Book metadata fields -->
+            <div class="sidebar-fields">
+              <div class="sidebar-field-group">
+                <label class="sidebar-label" for="edit-title">Title</label>
+                <input
+                  class="sidebar-input"
+                  type="text"
+                  id="edit-title"
+                  name="title"
+                  value="<%= book.title %>"
+                  required
+                />
+              </div>
+
+              <div class="sidebar-field-group">
+                <label class="sidebar-label" for="edit-author">Author</label>
+                <input
+                  class="sidebar-input"
+                  type="text"
+                  id="edit-author"
+                  name="author"
+                  value="<%= book.author %>"
+                  required
+                />
+              </div>
+
+              <div class="sidebar-field-group">
+                <label class="sidebar-label" for="edit-genre">Genre</label>
+                <select class="sidebar-input sidebar-select" id="edit-genre" name="genre">
+                  <% const genres = ['Fiction','Non-Fiction','Sci-Fi','Fantasy','Biography','Philosophy','History','Self-Help','Other']; %>
+                  <% genres.forEach(function(g) { %>
+                    <option <% if (book.genre === g) { %>selected<% } %>><%= g %></option>
+                  <% }); %>
+                </select>
+              </div>
+
+              <div class="sidebar-field-group">
+                <label class="sidebar-label" for="edit-date">Date Finished</label>
+                <input
+                  class="sidebar-input"
+                  type="date"
+                  id="edit-date"
+                  name="date_finished"
+                  value="<%= book.dateFinished || '' %>"
+                />
+              </div>
+
+              <div class="sidebar-field-group">
+                <label class="sidebar-label">Rating</label>
+                <div class="sidebar-rating" id="sidebarRating">
+                  <% for (let i = 1; i <= 5; i++) { %>
+                    <span class="sidebar-star <%= i <= book.rating ? 'filled' : '' %>" data-value="<%= i %>">&#9733;</span>
+                  <% } %>
+                </div>
+                <input type="hidden" name="rating" id="sidebarRatingValue" value="<%= book.rating %>" />
+              </div>
+            </div>
+
+            <!-- Sidebar save (for quick field-only saves) -->
+            <button type="submit" class="sidebar-save-btn">
+              Save Changes
+            </button>
+
+          </aside>
+
+          <!-- ══════════════════════════════════════
+               RIGHT COLUMN — Notes editor
+          ══════════════════════════════════════ -->
+          <div class="editor-canvas">
+
+            <div class="editor-canvas-header">
+              <div class="canvas-header-left">
+                <p class="canvas-eyebrow">Reading Journal</p>
+                <h1 class="canvas-title"><%= book.title %></h1>
+                <p class="canvas-author">by <%= book.author %></p>
+              </div>
+              <div class="canvas-word-count">
+                <span class="wc-number" id="wordCount">0</span>
+                <span class="wc-label">words</span>
+              </div>
+            </div>
+
+            <!-- Formatting toolbar -->
+            <div class="editor-toolbar" role="toolbar" aria-label="Formatting">
+              <div class="toolbar-group">
+                <button type="button" class="tool-btn" data-cmd="bold" title="Bold">
+                  <strong>B</strong>
+                </button>
+                <button type="button" class="tool-btn tool-italic" data-cmd="italic" title="Italic">
+                  <em>I</em>
+                </button>
+                <button type="button" class="tool-btn tool-underline" data-cmd="underline" title="Underline">
+                  <u>U</u>
+                </button>
+              </div>
+              <div class="toolbar-divider"></div>
+              <div class="toolbar-group">
+                <button type="button" class="tool-btn" data-cmd="insertUnorderedList" title="Bullet list">&#8226;&#8211;</button>
+                <button type="button" class="tool-btn" data-cmd="insertOrderedList" title="Numbered list">1.</button>
+              </div>
+              <div class="toolbar-divider"></div>
+              <div class="toolbar-group">
+                <button type="button" class="tool-btn tool-quote" data-cmd="blockquote" title="Block quote">&#10077;</button>
+                <button type="button" class="tool-btn" data-cmd="removeFormat" title="Clear formatting">&#10005;</button>
+              </div>
+              <div class="toolbar-spacer"></div>
+              <span class="toolbar-hint">auto-saved as draft</span>
+            </div>
+
+            <!-- The contenteditable writing surface -->
+            <div
+              class="editor-surface"
+              id="editorSurface"
+              contenteditable="true"
+              spellcheck="true"
+              data-placeholder="Begin writing your notes, thoughts, favourite quotes… This is your space."
+            ><%= book.notes || '' %></div>
+
+            <!-- Hidden textarea that mirrors the editor for form submission -->
+            <textarea
+              name="notes"
+              id="notesHidden"
+              style="display:none;"
+              aria-hidden="true"
+            ><%= book.notes || '' %></textarea>
+
+            <!-- Floating quote pull-out (appears when text is selected) -->
+            <div class="quote-pullout" id="quotePullout">
+              <button type="button" class="quote-pullout-btn" id="insertQuoteBtn">
+                &#10077; Pull quote
+              </button>
+            </div>
+
+            <!-- Editor footer -->
+            <div class="editor-footer">
+              <div class="editor-footer-meta">
+                <span class="footer-last-saved" id="lastSaved">Unsaved changes</span>
+              </div>
+              <div class="editor-footer-actions">
+                <a href="/" class="btn-cancel-edit">Discard</a>
+                <button type="submit" class="btn-save-notes">
+                  <span class="save-icon">&#10003;</span>
+                  Save Notes
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      // ── Mirror contenteditable → hidden textarea on submit ──
+      const surface   = document.getElementById('editorSurface');
+      const hidden    = document.getElementById('notesHidden');
+      const wordCount = document.getElementById('wordCount');
+      const lastSaved = document.getElementById('lastSaved');
+
+      function syncHidden() {
+        hidden.value = surface.innerHTML;
+      }
+
+      function updateWordCount() {
+        const text = surface.innerText.trim();
+        const count = text ? text.split(/\s+/).length : 0;
+        wordCount.textContent = count;
+      }
+
+      document.getElementById('editForm').addEventListener('submit', syncHidden);
+
+      // ── Live word count ──
+      surface.addEventListener('input', () => {
+        updateWordCount();
+        lastSaved.textContent = 'Unsaved changes';
+        lastSaved.classList.add('unsaved');
+        scheduleDraftSave();
+      });
+
+      // ── Formatting toolbar ──
+      document.querySelectorAll('.tool-btn[data-cmd]').forEach(btn => {
+        btn.addEventListener('mousedown', e => {
+          e.preventDefault(); // keep focus in editor
+          const cmd = btn.dataset.cmd;
+          if (cmd === 'blockquote') {
+            document.execCommand('formatBlock', false, 'blockquote');
+          } else {
+            document.execCommand(cmd, false, null);
+          }
+          surface.focus();
+          updateToolbarState();
+        });
+      });
+
+      function updateToolbarState() {
+        ['bold','italic','underline'].forEach(cmd => {
+          const btn = document.querySelector(`.tool-btn[data-cmd="${cmd}"]`);
+          if (btn) btn.classList.toggle('active', document.queryCommandState(cmd));
+        });
+      }
+
+      surface.addEventListener('keyup', updateToolbarState);
+      surface.addEventListener('mouseup', updateToolbarState);
+
+      // ── Quote pull-out: appears when text is selected ──
+      const pullout = document.getElementById('quotePullout');
+      const insertQuoteBtn = document.getElementById('insertQuoteBtn');
+
+      document.addEventListener('selectionchange', () => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+          pullout.classList.remove('visible');
+          return;
+        }
+        // Only show inside the editor surface
+        const range = sel.getRangeAt(0);
+        if (!surface.contains(range.commonAncestorContainer)) {
+          pullout.classList.remove('visible');
+          return;
+        }
+        // Position near the selection
+        const rect = range.getBoundingClientRect();
+        pullout.style.top  = `${rect.top + window.scrollY - 44}px`;
+        pullout.style.left = `${rect.left + rect.width / 2}px`;
+        pullout.classList.add('visible');
+      });
+
+      insertQuoteBtn.addEventListener('mousedown', e => {
+        e.preventDefault();
+        document.execCommand('formatBlock', false, 'blockquote');
+        pullout.classList.remove('visible');
+        surface.focus();
+      });
+
+      // ── Draft auto-save to localStorage ──
+      const DRAFT_KEY = 'booktracker-draft-<%= book.id %>';
+      let draftTimer;
+
+      function scheduleDraftSave() {
+        clearTimeout(draftTimer);
+        draftTimer = setTimeout(() => {
+          localStorage.setItem(DRAFT_KEY, surface.innerHTML);
+          lastSaved.textContent = 'Draft saved';
+          lastSaved.classList.remove('unsaved');
+        }, 1500);
+      }
+
+      // Restore draft if newer than saved content
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved && saved !== surface.innerHTML) {
+        const banner = document.createElement('div');
+        banner.className = 'draft-restore-banner';
+        banner.innerHTML = `
+          <span>You have an unsaved draft for this book.</span>
+          <button type="button" id="restoreDraft">Restore draft</button>
+          <button type="button" id="dismissDraft">Dismiss</button>
+        `;
+        document.querySelector('.editor-canvas').prepend(banner);
+
+        document.getElementById('restoreDraft').addEventListener('click', () => {
+          surface.innerHTML = saved;
+          updateWordCount();
+          banner.remove();
+          lastSaved.textContent = 'Draft restored';
+        });
+        document.getElementById('dismissDraft').addEventListener('click', () => {
+          localStorage.removeItem(DRAFT_KEY);
+          banner.remove();
+        });
+      }
+
+      // ── Sidebar star rating ──
+      const sidebarStars = document.querySelectorAll('.sidebar-star');
+      const sidebarRatingVal = document.getElementById('sidebarRatingValue');
+
+      sidebarStars.forEach(star => {
+        star.addEventListener('mouseenter', () => {
+          const val = parseInt(star.dataset.value);
+          sidebarStars.forEach((s, i) => s.classList.toggle('hover', i < val));
+        });
+        star.addEventListener('mouseleave', () => {
+          sidebarStars.forEach(s => s.classList.remove('hover'));
+        });
+        star.addEventListener('click', () => {
+          const val = parseInt(star.dataset.value);
+          sidebarRatingVal.value = val;
+          sidebarStars.forEach((s, i) => {
+            s.classList.toggle('filled', i < val);
+          });
+        });
+      });
+
+      // ── Initial word count ──
+      updateWordCount();
+    </script>
+  </body>
+</html>

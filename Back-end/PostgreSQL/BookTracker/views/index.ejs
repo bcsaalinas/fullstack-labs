@@ -1,0 +1,423 @@
+<%- include('partials/header.ejs') %>
+
+      <!-- Hero / Page Header -->
+      <section class="page-hero">
+        <div class="hero-text">
+          <p class="hero-eyebrow">Your reading life,</p>
+          <h1 class="hero-title">beautifully tracked.</h1>
+        </div>
+        <div class="hero-decoration">
+          <div class="deco-line"></div>
+          <span class="deco-ornament">&#10022;</span>
+          <div class="deco-line"></div>
+        </div>
+      </section>
+
+      <!-- Filter Bar -->
+      <section class="filter-bar">
+        <div class="filter-inner">
+          <div class="filter-tabs">
+            <button class="filter-tab active">All Books</button>
+            <button class="filter-tab">Fiction</button>
+            <button class="filter-tab">Non-Fiction</button>
+            <button class="filter-tab">With Notes</button>
+          </div>
+          <div class="sort-control">
+            <label class="sort-label">Sort by</label>
+            <select class="sort-select">
+              <option>Date Added</option>
+              <option>Title A–Z</option>
+              <option>Author</option>
+              <option>Rating</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Book Grid -->
+      <section class="books-section">
+
+        <% if (!locals.books || books.length === 0) { %>
+        <!-- Empty State -->
+        <div class="empty-state">
+          <div class="empty-shelves">
+            <div class="empty-shelf-row">
+              <div class="empty-slot" style="--slot-hue:28; --slot-h:72px; --slot-delay:0ms;"></div>
+              <div class="empty-slot" style="--slot-hue:180; --slot-h:84px; --slot-delay:60ms;"></div>
+              <div class="empty-slot" style="--slot-hue:340; --slot-h:68px; --slot-delay:120ms;"></div>
+              <div class="empty-slot" style="--slot-hue:210; --slot-h:90px; --slot-delay:180ms;"></div>
+              <div class="empty-slot" style="--slot-hue:95; --slot-h:76px; --slot-delay:240ms;"></div>
+              <div class="empty-slot" style="--slot-hue:55; --slot-h:80px; --slot-delay:300ms;"></div>
+              <div class="empty-slot" style="--slot-hue:270; --slot-h:64px; --slot-delay:360ms;"></div>
+            </div>
+            <div class="empty-shelf-plank"></div>
+          </div>
+          <div class="empty-copy">
+            <p class="empty-eyebrow">Your shelf is empty</p>
+            <h2 class="empty-heading">Every great library<br>begins with one book.</h2>
+            <p class="empty-sub">Track the books you've read, capture your thoughts,<br>and watch your reading life take shape.</p>
+            <button class="empty-cta" id="openAddBookEmpty">
+              <span class="empty-cta-plus">+</span>
+              Add your first book
+            </button>
+          </div>
+        </div>
+        <% } else { %>
+
+        <div class="books-grid">
+          <% books.forEach(book => { %>
+            
+              <article class="book-card has-notes" style="--card-hue: 28;">
+            <div class="book-cover-wrap">
+              <div class="book-cover-inner">
+                <% if (book.coverId) { %>
+                 <img src="https://covers.openlibrary.org/b/id/<%= book.coverId %>-L.jpg" alt="Book cover">
+                <% } else { %>
+                <div class="book-cover-placeholder">
+                  <div class="cover-ph-ornament">
+                    <span class="cover-ph-line"></span>
+                    <span class="cover-ph-diamond">&#9670; &#9670; &#9670;</span>
+                    <span class="cover-ph-line"></span>
+                  </div>
+                  <p class="cover-ph-title"><%= book.title %></p>
+                  <div class="cover-ph-divider"></div>
+                  <p class="cover-ph-author"><%= book.author %></p>
+                </div>
+                <% } %>
+              </div>
+              <span class="cover-badge"><%= book.genre %></span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta-top">
+                <p class="book-author"><%= book.author %></p>
+                <div class="book-rating">
+                 <% for( let index = 0; index <= book.rating; index++ ) { %>
+                  <span class="star filled">&#9733;</span>
+                 <% } %>
+                </div>
+              </div>
+              <h2 class="book-title"><%= book.title %></h2>
+              <p class="book-date"><%= book.finishDate %></p>
+              <div class="notes-preview">
+                <span class="notes-icon">&#128221;</span>
+                <p class="notes-snippet">
+                  <% if (book.notes && book.notes.trim()) { %>
+                    <%= book.notes %>
+                  <% } else { %>
+                    No notes yet!
+                  <% } %>
+                </p>
+              </div>
+              <div class="card-actions">
+                <button class="btn-notes" data-index="<%= books.indexOf(book) %>">View Notes</button>
+                <a href="/edit?id=<%= books.indexOf(book) %>" class="btn-edit">&#9998;</a>
+              </div>
+            </div>
+          </article>
+
+
+          <% }) %>
+        </div>
+        <% } %>
+
+      </section>
+
+    </main>
+
+    <!-- add book modal -->
+    <div class="modal-overlay" id="addBookOverlay">
+      <div class="modal" id="addBookModal">
+        <button class="modal-close" id="closeAddBook">&#10005;</button>
+
+        <!-- ──book details ── -->
+        <div class="modal-step" id="stepDetails">
+          <div class="modal-header">
+            <p class="modal-eyebrow">New Entry</p>
+            <h2 class="modal-title">Add a Book</h2>
+          </div>
+          <form class="book-form" action="/search-covers" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="title">Book Title</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="title"
+                  name="title"
+                  placeholder="e.g. The Name of the Wind"
+                  value="<%= locals.formData ? formData.title : '' %>"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="author">Author</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="author"
+                  name="author"
+                  placeholder="e.g. Patrick Rothfuss"
+                  value="<%= locals.formData ? formData.author : '' %>"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="genre">Genre</label>
+                <select class="form-input form-select" id="genre" name="genre">
+                  <option value="">Select genre…</option>
+                  <% const genres = ['Fiction','Non-Fiction','Sci-Fi','Fantasy','Biography','Philosophy','History','Self-Help','Other']; %>
+                  <% genres.forEach(function(g) { %>
+                    <option <% if (locals.formData && formData.genre === g) { %>selected<% } %>><%= g %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your Rating</label>
+                <div class="rating-input" id="ratingInput">
+                  <span class="rating-star" data-value="1">&#9733;</span>
+                  <span class="rating-star" data-value="2">&#9733;</span>
+                  <span class="rating-star" data-value="3">&#9733;</span>
+                  <span class="rating-star" data-value="4">&#9733;</span>
+                  <span class="rating-star" data-value="5">&#9733;</span>
+                </div>
+                <input type="hidden" name="rating" id="ratingValue" value="<%= locals.formData ? formData.rating : 0 %>" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="date_finished">Date Finished</label>
+              <input
+                class="form-input"
+                type="date"
+                id="date_finished"
+                name="date_finished"
+                value="<%= locals.formData ? formData.date_finished : '' %>"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="notes">
+                Notes <span class="label-optional">(optional)</span>
+              </label>
+              <textarea
+                class="form-input form-textarea"
+                id="notes"
+                name="notes"
+                placeholder="Your thoughts, favourite quotes, things to remember…"
+                rows="4"
+              ><%= locals.formData ? formData.notes : '' %></textarea>
+              <p class="form-hint">You can always add or edit notes later.</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-cancel" id="cancelAddBook">Cancel</button>
+              <button type="submit" class="btn-submit">Next — Choose Cover</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ── Step 2: Cover picker (only rendered when server returns options) ── -->
+        <% if (locals.openPicker) { %>
+        <div class="modal-step" id="stepCoverPicker">
+          <div class="modal-header">
+            <p class="modal-eyebrow">Almost there</p>
+            <h2 class="modal-title">Choose a Cover</h2>
+            <p class="picker-subtitle">Select the edition that matches your copy, or skip.</p>
+          </div>
+
+          <% if (locals.coverOptions && coverOptions.length > 0) { %>
+          <div class="cover-picker-grid">
+            <% coverOptions.forEach((opt, i) => { %>
+            <label class="cover-option" for="cover-<%= i %>">
+              <input
+                type="radio"
+                name="pickedCover"
+                id="cover-<%= i %>"
+                value="<%= opt.coverId %>"
+                class="cover-radio"
+                <%= i === 0 ? 'checked' : '' %>
+              />
+              <img
+                class="cover-option-img"
+                src="<%= opt.coverUrl %>"
+                alt="<%= opt.bookTitle %>"
+                loading="lazy"
+              />
+              <span class="cover-option-check">&#10003;</span>
+              <span class="cover-option-label"><%= opt.bookTitle %></span>
+            </label>
+            <% }) %>
+          </div>
+          <% } else { %>
+          <p class="picker-no-results">No covers found for this title. The placeholder will be used.</p>
+          <% } %>
+
+          <!-- final form that submits to /add with all data + chosen coverId -->
+          <form action="/add" method="POST" id="confirmForm">
+            <input type="hidden" name="title"         value="<%= formData.title %>">
+            <input type="hidden" name="author"        value="<%= formData.author %>">
+            <input type="hidden" name="genre"         value="<%= formData.genre %>">
+            <input type="hidden" name="rating"        value="<%= formData.rating %>">
+            <input type="hidden" name="date_finished" value="<%= formData.date_finished %>">
+            <input type="hidden" name="notes"         value="<%= formData.notes %>">
+            <input type="hidden" name="coverId"       id="finalCoverId" value="<%= locals.coverOptions && coverOptions.length > 0 ? coverOptions[0].coverId : '' %>">
+
+            <div class="form-actions">
+              <button type="button" class="btn-cancel" id="cancelAddBook2">Cancel</button>
+              <button type="button" class="btn-secondary" id="skipCoverBtn">Skip Cover</button>
+              <button type="submit" class="btn-submit">Save Book</button>
+            </div>
+          </form>
+        </div>
+        <% } %>
+
+      </div>
+    </div>
+
+    <!-- notes modal — populated dynamically via JS -->
+    <div class="modal-overlay" id="notesOverlay">
+      <div class="modal modal-notes" id="notesModal">
+        <button class="modal-close" id="closeNotes">&#10005;</button>
+        <div class="modal-header">
+          <p class="modal-eyebrow">Reading Notes</p>
+          <h2 class="modal-title" id="notesBookTitle"></h2>
+          <p class="notes-modal-author" id="notesBookAuthor"></p>
+        </div>
+        <div class="notes-body">
+          <div class="notes-content" id="notesContent"></div>
+        </div>
+        <div class="notes-modal-actions">
+          <a class="btn-edit-notes" id="notesEditLink" href="#">Edit Notes</a>
+        </div>
+      </div>
+    </div>
+
+    <script type="application/json" id="booksJson"><%- JSON.stringify(locals.books || []) %></script>
+
+    <script>
+      // Books data from server — used to populate the notes modal
+      const booksData = JSON.parse(document.getElementById('booksJson').textContent);
+
+      // modal open/close
+      const addOverlay = document.getElementById('addBookOverlay');
+      const openBtn    = document.getElementById('openAddBook');
+      const closeBtn   = document.getElementById('closeAddBook');
+      const cancelBtn  = document.getElementById('cancelAddBook');
+      const cancelBtn2 = document.getElementById('cancelAddBook2');
+
+      const openModal  = () => addOverlay.classList.add('active');
+      const closeModal = () => addOverlay.classList.remove('active');
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      if (cancelBtn)  cancelBtn.addEventListener('click',  closeModal);
+      if (cancelBtn2) cancelBtn2.addEventListener('click', closeModal);
+      addOverlay.addEventListener('click', (e) => { if (e.target === addOverlay) closeModal(); });
+
+      
+      const emptyCtaBtn = document.getElementById('openAddBookEmpty');
+      if (emptyCtaBtn) emptyCtaBtn.addEventListener('click', openModal);
+
+
+      const pickerStep = document.getElementById('stepCoverPicker');
+      const detailStep = document.getElementById('stepDetails');
+      if (pickerStep) {
+        // hide step 1, show step 2
+        detailStep.style.display = 'none';
+        pickerStep.style.display = 'block';
+        openModal();
+
+        // sync the hidden coverId field when user picks a different radio
+        document.querySelectorAll('.cover-radio').forEach((radio) => {
+          radio.addEventListener('change', () => {
+            document.getElementById('finalCoverId').value = radio.value;
+          });
+        });
+
+        // skip cover — clear the coverId and submit
+        const skipBtn = document.getElementById('skipCoverBtn');
+        if (skipBtn) {
+          skipBtn.addEventListener('click', () => {
+            document.getElementById('finalCoverId').value = '';
+            document.getElementById('confirmForm').submit();
+          });
+        }
+      }
+
+      // modal: Notes
+      const notesOverlay  = document.getElementById('notesOverlay');
+      const closeNotesBtn = document.getElementById('closeNotes');
+      const notesTitle    = document.getElementById('notesBookTitle');
+      const notesAuthor   = document.getElementById('notesBookAuthor');
+      const notesContent  = document.getElementById('notesContent');
+      const notesEditLink = document.getElementById('notesEditLink');
+
+      document.querySelectorAll('.btn-notes').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx  = parseInt(btn.dataset.index);
+          const book = booksData[idx];
+          if (!book) return;
+
+          notesTitle.textContent  = book.title;
+          notesAuthor.textContent = book.author;
+          notesEditLink.href      = `/edit?id=${idx}`;
+
+          if (book.notes && book.notes.trim()) {
+            // notes saved from the rich editor arrive as HTML; plain text gets wrapped
+            const isHtml = /<[a-z][\s\S]*>/i.test(book.notes);
+            notesContent.innerHTML = isHtml
+              ? book.notes
+              : `<p>${book.notes.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
+          } else {
+            notesContent.innerHTML = '<p class="notes-empty">No notes yet. Click <em>Edit Notes</em> to start writing.</p>';
+          }
+
+          notesOverlay.classList.add('active');
+        });
+      });
+      closeNotesBtn.addEventListener('click', () => notesOverlay.classList.remove('active'));
+      notesOverlay.addEventListener('click', (e) => {
+        if (e.target === notesOverlay) notesOverlay.classList.remove('active');
+      });
+
+      // star rating interaction
+      const stars = document.querySelectorAll('.rating-star');
+      const ratingInput = document.getElementById('ratingValue');
+      stars.forEach((star) => {
+        star.addEventListener('mouseenter', () => {
+          const val = parseInt(star.dataset.value);
+          stars.forEach((s, i) => s.classList.toggle('active', i < val));
+        });
+        star.addEventListener('click', () => {
+          const val = parseInt(star.dataset.value);
+          ratingInput.value = val;
+          stars.forEach((s, i) => s.classList.toggle('selected', i < val));
+        });
+      });
+      document.getElementById('ratingInput').addEventListener('mouseleave', () => {
+        const selected = parseInt(ratingInput.value);
+        stars.forEach((s, i) => {
+          s.classList.remove('active');
+          s.classList.toggle('selected', i < selected);
+        });
+      });
+
+      // filter tabs
+      document.querySelectorAll('.filter-tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.filter-tab').forEach((t) => t.classList.remove('active'));
+          tab.classList.add('active');
+        });
+      });
+
+      // staggered card entrance
+      const cards = document.querySelectorAll('.book-card');
+      cards.forEach((card, i) => {
+        card.style.animationDelay = `${i * 80}ms`;
+      });
+    </script>
+
+<%- include('partials/footer.ejs') %>
