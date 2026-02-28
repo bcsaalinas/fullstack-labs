@@ -42,18 +42,16 @@
 
         <div class="editor-layout">
 
-          <!-- ══════════════════════════════════════
-               LEFT COLUMN — Book identity panel
-          ══════════════════════════════════════ -->
+          <!--Book identity panel-->
           <aside class="editor-sidebar">
 
             <!-- Book cover -->
             <div class="editor-cover-wrap" style="--card-hue: <%= book.hue || 28 %>;">
               <div class="editor-cover-inner">
-                <% if (book.coverId) { %>
+                <% if (book.bookcoverid) { %>
                   <img
                     class="editor-cover-img"
-                    src="https://covers.openlibrary.org/b/id/<%= book.coverId %>-L.jpg"
+                    src="https://covers.openlibrary.org/b/id/<%= book.bookcoverid %>-L.jpg"
                     alt="Cover of <%= book.title %>"
                   />
                 <% } else { %>
@@ -114,7 +112,7 @@
                   type="date"
                   id="edit-date"
                   name="date_finished"
-                  value="<%= book.dateFinished || '' %>"
+                  value="<%= book.date_finished ? book.date_finished.toISOString().split('T')[0] : '' %>"
                 />
               </div>
 
@@ -134,11 +132,15 @@
               Save Changes
             </button>
 
+            <!-- Delete book -->
+            <form action="/delete" method="POST" class="sidebar-delete-form" data-title="<%= book.title %>">
+              <input type="hidden" name="id" value="<%= book.id %>">
+              <button type="submit" class="sidebar-delete-btn">&#128465; Delete Book</button>
+            </form>
+
           </aside>
 
-          <!-- ══════════════════════════════════════
-               RIGHT COLUMN — Notes editor
-          ══════════════════════════════════════ -->
+          <!--  Notes editor-->
           <div class="editor-canvas">
 
             <div class="editor-canvas-header">
@@ -305,7 +307,7 @@
         surface.focus();
       });
 
-      // ── Draft auto-save to localStorage ──
+      //  Draft auto-save to localStorage 
       const DRAFT_KEY = 'booktracker-draft-<%= book.id %>';
       let draftTimer;
 
@@ -365,6 +367,12 @@
 
       // ── Initial word count ──
       updateWordCount();
+
+      // ── Delete confirm ──
+      document.querySelector('.sidebar-delete-form').addEventListener('submit', (e) => {
+        const title = e.currentTarget.dataset.title;
+        if (!confirm(`Delete "${title}" from your shelf? This cannot be undone.`)) e.preventDefault();
+      });
     </script>
   </body>
 </html>

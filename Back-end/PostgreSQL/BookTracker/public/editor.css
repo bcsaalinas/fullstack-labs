@@ -256,6 +256,34 @@
   color: var(--ink);
 }
 
+/* Sidebar delete button */
+.sidebar-delete-form {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar-delete-btn {
+  width: 100%;
+  padding: 0.65rem;
+  background: transparent;
+  border: 1px solid var(--cream-deeper);
+  border-radius: var(--r-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background var(--t-fast) ease, border-color var(--t-fast) ease, color var(--t-fast) ease;
+}
+
+.sidebar-delete-btn:hover {
+  background: #fff0f0;
+  border-color: #f5c6c6;
+  color: #c0392b;
+}
+
 /* ── Editor canvas ───────────────────────────────────────────── */
 .editor-canvas {
   background: #fff;

@@ -762,6 +762,32 @@ body::before {
   border-color: var(--amber-light);
 }
 
+.delete-form {
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+}
+
+.btn-delete {
+  padding: 0.5rem 0.65rem;
+  background: var(--cream);
+  border: 1px solid var(--cream-deeper);
+  border-radius: var(--r-sm);
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background var(--t-fast) ease, color var(--t-fast) ease, border-color var(--t-fast) ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete:hover {
+  background: #fff0f0;
+  color: #c0392b;
+  border-color: #f5c6c6;
+}
+
 /* ── Modal Base ──────────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;

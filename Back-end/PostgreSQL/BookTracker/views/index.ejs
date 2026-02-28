@@ -67,11 +67,11 @@
         <div class="books-grid">
           <% books.forEach(book => { %>
             
-              <article class="book-card has-notes" style="--card-hue: 28;">
+              <article class="book-card has-notes" data-genre="<%= book.genre %>" data-has-notes="<%= book.notes ? 'yes' : 'no' %>" data-title="<%= book.title %>" data-author="<%= book.author %>" data-rating="<%= book.rating %>" style="--card-hue: 28;">
             <div class="book-cover-wrap">
               <div class="book-cover-inner">
-                <% if (book.coverId) { %>
-                 <img src="https://covers.openlibrary.org/b/id/<%= book.coverId %>-L.jpg" alt="Book cover">
+                <% if (book.bookcoverid) { %>
+                 <img src="https://covers.openlibrary.org/b/id/<%= book.bookcoverid %>-L.jpg" alt="Book cover">
                 <% } else { %>
                 <div class="book-cover-placeholder">
                   <div class="cover-ph-ornament">
@@ -109,8 +109,12 @@
                 </p>
               </div>
               <div class="card-actions">
-                <button class="btn-notes" data-index="<%= books.indexOf(book) %>">View Notes</button>
-                <a href="/edit?id=<%= books.indexOf(book) %>" class="btn-edit">&#9998;</a>
+                <button class="btn-notes" data-book-id="<%= book.id %>">View Notes</button>
+                <a href="/edit?id=<%= book.id %>" class="btn-edit">&#9998;</a>
+                <form action="/delete" method="POST" class="delete-form" data-title="<%= book.title %>">
+                  <input type="hidden" name="id" value="<%= book.id %>">
+                  <button type="submit" class="btn-delete" title="Delete book">&#128465;</button>
+                </form>
               </div>
             </div>
           </article>
@@ -236,7 +240,7 @@
                 type="radio"
                 name="pickedCover"
                 id="cover-<%= i %>"
-                value="<%= opt.coverId %>"
+                value="<%= opt.coverid %>"
                 class="cover-radio"
                 <%= i === 0 ? 'checked' : '' %>
               />
@@ -263,7 +267,7 @@
             <input type="hidden" name="rating"        value="<%= formData.rating %>">
             <input type="hidden" name="date_finished" value="<%= formData.date_finished %>">
             <input type="hidden" name="notes"         value="<%= formData.notes %>">
-            <input type="hidden" name="coverId"       id="finalCoverId" value="<%= locals.coverOptions && coverOptions.length > 0 ? coverOptions[0].coverId : '' %>">
+            <input type="hidden" name="coverId"       id="finalCoverId" value="<%= locals.coverOptions && coverOptions.length > 0 ? coverOptions[0].coverid : '' %>">
 
             <div class="form-actions">
               <button type="button" class="btn-cancel" id="cancelAddBook2">Cancel</button>
@@ -290,7 +294,7 @@
           <div class="notes-content" id="notesContent"></div>
         </div>
         <div class="notes-modal-actions">
-          <a class="btn-edit-notes" id="notesEditLink" href="#">Edit Notes</a>
+          <a class="btn-edit-notes" id="notesEditLink" href="/edit">Edit Notes</a>
         </div>
       </div>
     </div>
@@ -357,13 +361,13 @@
 
       document.querySelectorAll('.btn-notes').forEach((btn) => {
         btn.addEventListener('click', () => {
-          const idx  = parseInt(btn.dataset.index);
-          const book = booksData[idx];
+          const bookId  = parseInt(btn.dataset.bookId);
+          const book = booksData.find(b => b.id === bookId);
           if (!book) return;
 
           notesTitle.textContent  = book.title;
           notesAuthor.textContent = book.author;
-          notesEditLink.href      = `/edit?id=${idx}`;
+          notesEditLink.href      = `/edit?id=${book.id}`;
 
           if (book.notes && book.notes.trim()) {
             // notes saved from the rich editor arrive as HTML; plain text gets wrapped
@@ -410,6 +414,10 @@
         tab.addEventListener('click', () => {
           document.querySelectorAll('.filter-tab').forEach((t) => t.classList.remove('active'));
           tab.classList.add('active');
+
+          //filter the books
+          const filterText = tab.textContent;
+          filterBooks(filterText);
         });
       });
 
@@ -418,6 +426,56 @@
       cards.forEach((card, i) => {
         card.style.animationDelay = `${i * 80}ms`;
       });
+
+
+      //filter function
+      function filterBooks(genre){
+        const cards = document.querySelectorAll(".book-card");
+
+        cards.forEach(card => {
+          if(genre == 'All Books'){
+            card.style.display = 'block'; //show all
+          } else if (genre == 'With Notes'){
+            card.style.display = card.dataset.hasNotes === 'yes' ? 'block' : 'none';
+          } else{
+            card.style.display = card.dataset.genre === genre ? 'block' : 'none';
+          }
+        })
+
+      }
+
+      // delete confirm
+      document.querySelectorAll('.delete-form').forEach((form) => {
+        form.addEventListener('submit', (e) => {
+          const title = form.dataset.title;
+          if (!confirm(`Delete "${title}" from your shelf?`)) e.preventDefault();
+        });
+      });
+
+      //sorting function
+      document.querySelector('.sort-select').addEventListener('change', (e) =>{
+        const sortBy = e.target.value;
+        const grid = document.querySelector('.books-grid');
+        const cards = Array.from(grid.querySelectorAll('.book-card'));
+
+
+        cards.sort((a,b) => {
+          if(sortBy === 'Title A–Z'){
+            return a.dataset.title.localeCompare(b.dataset.title);
+          } else if (sortBy === 'Author'){
+            return a.dataset.author.localeCompare(b.dataset.author);
+          } else if(sortBy === 'Rating'){
+            return parseInt(b.dataset.rating) - parseInt(a.dataset.rating);
+          }
+          //date is already in order so do nothing
+          return 0;
+        });
+
+        //re-order the cards on the grid
+        cards.forEach(card => grid.appendChild(card));
+
+      })
     </script>
+
 
 <%- include('partials/footer.ejs') %>
