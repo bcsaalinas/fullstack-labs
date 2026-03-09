@@ -1421,6 +1421,347 @@ body::before {
   line-height: 1;
 }
 
+/* ── Nav Auth Area ───────────────────────────────────────────── */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  margin-left: var(--gap-md);
+}
+
+/* Google sign-in button (nav compact version) */
+.btn-google-signin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 1.1rem;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--paper-border);
+  border-radius: var(--r-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color var(--t-fast) ease,
+    box-shadow var(--t-fast) ease,
+    transform var(--t-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.btn-google-signin:hover {
+  border-color: #4285F4;
+  box-shadow: 0 2px 12px rgba(66,133,244,.2);
+  transform: translateY(-1px);
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* User avatar in nav */
+.nav-user {
+  position: relative;
+}
+
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--paper-border);
+  cursor: pointer;
+  display: block;
+  transition: border-color var(--t-fast) ease, box-shadow var(--t-fast) ease;
+}
+
+.nav-avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--amber);
+  color: #fff;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nav-user:hover .nav-avatar {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(196,135,58,.18);
+}
+
+/* Dropdown revealed on hover */
+.nav-user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 200px;
+  background: var(--cream);
+  border: 1px solid var(--paper-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-modal);
+  padding: 0.85rem 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px) scale(.97);
+  transition:
+    opacity var(--t-med) ease,
+    transform var(--t-med) var(--ease-out);
+  z-index: 200;
+}
+
+.nav-user:hover .nav-user-dropdown,
+.nav-user:focus-within .nav-user-dropdown {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0) scale(1);
+}
+
+.nav-user-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.nav-user-email {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  margin-top: 0.2rem;
+}
+
+.nav-user-divider {
+  height: 1px;
+  background: var(--paper-border);
+  margin: 0.65rem 0;
+}
+
+.nav-signout {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: var(--rose);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--t-fast) ease;
+}
+
+.nav-signout:hover {
+  color: var(--rose-light);
+}
+
+/* ── Login Page ──────────────────────────────────────────────── */
+.login-page {
+  background-color: var(--cream);
+}
+
+.login-main {
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gap-xl) var(--gap-lg);
+  position: relative;
+  z-index: 1;
+  gap: var(--gap-xl);
+}
+
+/* Decorative ghost book columns */
+.login-deco {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding-bottom: 0;
+  flex-shrink: 0;
+}
+
+.deco-book {
+  width: var(--b-w, 32px);
+  height: var(--b-h, 100px);
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(
+    160deg,
+    hsl(var(--b-hue, 28), 35%, 80%) 0%,
+    hsl(var(--b-hue, 28), 30%, 70%) 100%
+  );
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: bookRise 500ms var(--ease-out) var(--b-delay, 0ms) both;
+  box-shadow:
+    inset 3px 0 0 rgba(255,255,255,.45),
+    inset -1px 0 0 rgba(0,0,0,.06);
+}
+
+.deco-book::before {
+  content: '';
+  position: absolute;
+  left: 7px; right: 7px;
+  top: 20%;
+  height: 1px;
+  background: rgba(255,255,255,.5);
+  border-radius: 1px;
+}
+
+@keyframes bookRise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Login card */
+.login-card {
+  background: #fff;
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-modal);
+  padding: var(--gap-xl) clamp(var(--gap-lg), 6vw, 3.5rem);
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--gap-md);
+  animation: cardReveal var(--t-slow) var(--ease-out) 100ms both;
+
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(196,135,58,.05) 28px
+  );
+  background-size: 100% 28px;
+}
+
+.login-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.login-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.login-title em {
+  color: var(--amber);
+  font-style: italic;
+}
+
+.login-subtitle {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.login-divider-deco {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0.25rem 0;
+}
+
+.deco-line-sm {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--paper-border), transparent);
+}
+
+.deco-ornament-sm {
+  color: var(--amber);
+  font-size: 0.65rem;
+  opacity: .6;
+}
+
+/* Error banner */
+.login-error {
+  width: 100%;
+  background: #fff5f5;
+  border: 1px solid #f5c6c6;
+  border-radius: var(--r-sm);
+  padding: 0.7rem 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #c0392b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login-error-icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* Large Google button (login page) */
+.btn-google-signin--large {
+  width: 100%;
+  justify-content: center;
+  padding: 0.85rem 1.5rem;
+  font-size: 1rem;
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--paper-border);
+  margin-top: 0.25rem;
+}
+
+.btn-google-signin--large .google-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.btn-google-signin--large:hover {
+  border-color: #4285F4;
+  box-shadow: 0 4px 20px rgba(66,133,244,.22);
+  transform: translateY(-2px);
+}
+
+.login-terms {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  opacity: .75;
+}
+
+/* Hide decorative books on small screens */
+@media (max-width: 900px) {
+  .login-deco { display: none; }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    border-radius: var(--r-md);
+    padding: var(--gap-lg);
+  }
+  .btn-google-signin--large {
+    font-size: 0.9rem;
+  }
+}
+
 /* ── Footer ──────────────────────────────────────────────────── */
 .site-footer {
   border-top: 1px solid var(--paper-border);
