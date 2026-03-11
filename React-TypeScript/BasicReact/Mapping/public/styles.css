@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #f4f0eb;
+  --card-bg: #ffffff;
+  --text: #3a3632;
+  --text-muted: #7a746d;
+  --accent: #e07a5f;
+  --accent-soft: #f2ccc0;
+  --heading-bg: #2d3436;
+  --shadow-sm: 0 1px 3px rgba(45, 52, 54, 0.06);
+  --shadow-md: 0 8px 30px rgba(45, 52, 54, 0.08);
+  --shadow-lg: 0 12px 40px rgba(45, 52, 54, 0.12);
+  --radius: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0 1.5rem 4rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  text-align: center;
+  margin: 0;
+  padding: 3rem 0 2.5rem;
+  color: var(--heading-bg);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h1 span {
+  padding: 0;
+  background: none;
+  position: relative;
+  display: inline-block;
+}
+
+h1 span::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: -4px;
+  right: -4px;
+  height: 12px;
+  background: var(--accent-soft);
+  z-index: -1;
+  border-radius: 2px;
+}
+
+.dictionary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.75rem;
+  margin: 1rem auto 0;
+  max-width: 960px;
+}
+
+.dictionary > .term {
+  text-align: center;
+  padding: 2.25rem 1.75rem 2rem;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+}
+
+.dictionary > .term:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.dictionary > .term > dt {
+  margin-bottom: 0.75rem;
+}
+
+dt {
+  color: var(--text);
+  line-height: 1.2;
+}
+
+dt span {
+  font-family: "DM Serif Display", serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.emoji {
+  margin: 0 auto 1rem;
+  display: block;
+  font-size: 3.5rem;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  background: var(--bg);
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.dictionary > .term:hover .emoji {
+  transform: scale(1.1);
+}
+
+dd {
+  font-size: 0.9rem;
+  margin-left: 0;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+dd dt {
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: inherit;
+}
+
+dd dl {
+  font-size: 0.85rem;
+  margin: 0.75rem auto 0;
+  letter-spacing: 0.2px;
+  max-width: 15rem;
+}
+
+dd dl .term {
+  margin-bottom: 0.75rem;
+}
