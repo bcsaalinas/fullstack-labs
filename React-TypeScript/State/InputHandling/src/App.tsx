@@ -20,6 +20,7 @@ export default function App() {
 
     //prev is our previous state react passes into the updater when its about to calculate the next one
     setFullName((prev) => {
+      //this copies the previous state and then updates only the key that changed with the new value, this way we dont lose the other keys values
       const newState = {
         ...prev,
         [eventName]: eventValue,
