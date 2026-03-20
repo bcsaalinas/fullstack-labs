@@ -20,22 +20,10 @@ export default function App() {
 
     //prev is our previous state react passes into the updater when its about to calculate the next one
     setFullName((prev) => {
-      //manually copy everything
-
-      let newState = {
-        firstName: prev.firstName,
-        lastName: prev.lastName,
-        email: prev.email,
+      const newState = {
+        ...prev,
+        [eventName]: eventValue,
       };
-
-      //update only the input that changed, we can determine this with the inputs name attribute
-      if (eventName === "firstName") {
-        newState.firstName = eventValue;
-      } else if (eventName === "lastName") {
-        newState.lastName = eventValue;
-      } else if (eventName === "email") {
-        newState.email = eventValue;
-      }
 
       return newState;
     });
