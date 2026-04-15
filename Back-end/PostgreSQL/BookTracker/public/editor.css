@@ -1,15 +1,20 @@
-/* ============================================================
-   BookTracker — Editor Page
-   Full-page reading journal / notes editor
-   ============================================================ */
+/* booktracker — editor page full-page reading journal / notes editor */
 
-/* ── Editor body override ────────────────────────────────────── */
+/* editor body override */
 .editor-page {
-  /* Slightly deeper background — feels like aged paper */
+  /* slightly deeper background — feels like aged paper */
   background-color: #ede8de;
 }
 
-/* ── Breadcrumb in nav ───────────────────────────────────────── */
+/* editor nav auth inline */
+.nav-auth-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+/* breadcrumb in nav */
 .editor-breadcrumb {
   display: flex;
   align-items: center;
@@ -62,7 +67,7 @@
   background: var(--amber-pale);
 }
 
-/* ── Editor main layout ──────────────────────────────────────── */
+/* editor main layout */
 .editor-main {
   max-width: 1280px;
   margin: 0 auto;
@@ -76,7 +81,7 @@
   align-items: start;
 }
 
-/* ── Sidebar ─────────────────────────────────────────────────── */
+/* sidebar */
 .editor-sidebar {
   position: sticky;
   top: calc(var(--nav-h) + var(--gap-md));
@@ -85,7 +90,7 @@
   gap: var(--gap-md);
 }
 
-/* Cover in sidebar — taller portrait ratio */
+/* cover in sidebar — taller portrait ratio */
 .editor-cover-wrap {
   position: relative;
   width: 100%;
@@ -98,7 +103,7 @@
     var(--shadow-lift);
 }
 
-/* Spine on sidebar cover */
+/* spine on sidebar cover */
 .editor-cover-wrap::before {
   content: '';
   position: absolute;
@@ -157,7 +162,7 @@
   color: #fff;
 }
 
-/* ── Sidebar fields ──────────────────────────────────────────── */
+/* sidebar fields */
 .sidebar-fields {
   display: flex;
   flex-direction: column;
@@ -210,7 +215,7 @@
   padding-right: 2rem;
 }
 
-/* Sidebar star rating */
+/* sidebar star rating */
 .sidebar-rating {
   display: flex;
   gap: 3px;
@@ -234,7 +239,7 @@
   transform: scale(1.2);
 }
 
-/* Sidebar save button */
+/* sidebar save button */
 .sidebar-save-btn {
   width: 100%;
   padding: 0.65rem;
@@ -256,7 +261,7 @@
   color: var(--ink);
 }
 
-/* Sidebar delete button */
+/* sidebar delete button */
 .sidebar-delete-form {
   margin: 0;
   padding: 0;
@@ -284,7 +289,7 @@
   color: #c0392b;
 }
 
-/* ── Editor canvas ───────────────────────────────────────────── */
+/* editor canvas */
 .editor-canvas {
   background: #fff;
   border-radius: var(--r-lg);
@@ -294,7 +299,7 @@
   flex-direction: column;
   min-height: calc(100vh - var(--nav-h) - var(--gap-lg) * 3);
 
-  /* Subtle ruled-paper lines */
+  /* subtle ruled-paper lines */
   background-image: repeating-linear-gradient(
     transparent,
     transparent 27px,
@@ -304,7 +309,7 @@
   background-attachment: local;
 }
 
-/* Canvas header */
+/* canvas header */
 .editor-canvas-header {
   display: flex;
   align-items: flex-start;
@@ -312,7 +317,7 @@
   padding: 2rem 2.5rem 1.25rem;
   border-bottom: 1px solid var(--cream-dark);
   background: #fff;
-  /* Sits on top of the background-image lines */
+  /* sits on top of the background-image lines */
   position: relative;
   z-index: 1;
 }
@@ -344,7 +349,7 @@
   margin-top: 0.35rem;
 }
 
-/* Word count display */
+/* word count display */
 .canvas-word-count {
   display: flex;
   flex-direction: column;
@@ -370,7 +375,7 @@
   margin-top: 0.15rem;
 }
 
-/* ── Formatting toolbar ──────────────────────────────────────── */
+/* formatting toolbar */
 .editor-toolbar {
   display: flex;
   align-items: center;
@@ -442,7 +447,7 @@
   font-style: italic;
 }
 
-/* ── The writing surface ─────────────────────────────────────── */
+/* the writing surface */
 .editor-surface {
   flex: 1;
   padding: 2rem 2.5rem;
@@ -453,11 +458,11 @@
   outline: none;
   min-height: 420px;
   position: relative;
-  /* Make the ruled lines align to our line-height */
+  /* make the ruled lines align to our line-height */
   background-clip: padding-box;
 }
 
-/* Placeholder text via data attribute */
+/* placeholder text via data attribute */
 .editor-surface:empty::before {
   content: attr(data-placeholder);
   color: var(--paper-border);
@@ -465,7 +470,7 @@
   pointer-events: none;
 }
 
-/* Styled blockquote inside the editor */
+/* styled blockquote inside the editor */
 .editor-surface blockquote {
   margin: 1.5rem 0;
   padding: 1rem 1.5rem;
@@ -490,13 +495,13 @@
   line-height: 1.75;
 }
 
-/* Selection highlight in amber tone */
+/* selection highlight in amber tone */
 .editor-surface ::selection {
   background: rgba(196,135,58,.2);
   color: var(--ink);
 }
 
-/* ── Floating quote pull-out ─────────────────────────────────── */
+/* floating quote pull-out */
 .quote-pullout {
   position: absolute;
   transform: translateX(-50%);
@@ -532,7 +537,7 @@
   background: var(--amber);
 }
 
-/* ── Draft restore banner ────────────────────────────────────── */
+/* draft restore banner */
 .draft-restore-banner {
   display: flex;
   align-items: center;
@@ -579,7 +584,7 @@
   background: var(--cream-dark);
 }
 
-/* ── Editor footer ───────────────────────────────────────────── */
+/* editor footer */
 .editor-footer {
   display: flex;
   align-items: center;
@@ -661,7 +666,7 @@
   line-height: 1;
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/* responsive */
 @media (max-width: 900px) {
   .editor-layout {
     grid-template-columns: 1fr;

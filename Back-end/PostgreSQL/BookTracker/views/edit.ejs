@@ -17,7 +17,7 @@
   <body class="editor-page">
     <div class="page-noise"></div>
 
-    <!-- ── Minimal nav for editor context ── -->
+    <!-- small nav for edit view -->
     <nav class="site-nav">
       <div class="nav-inner">
         <a href="/" class="site-logo">
@@ -29,10 +29,37 @@
           <span class="breadcrumb-label">Editing</span>
           <span class="breadcrumb-title"><%= book.title %></span>
         </div>
-        <a href="/" class="btn-back">
-          <span>&#8592;</span>
-          Back to shelf
-        </a>
+        <div class="nav-auth-inline">
+          <% if (locals.user) { %>
+            <div class="nav-user" data-profile-menu>
+              <button
+                type="button"
+                class="nav-user-trigger"
+                data-profile-trigger
+                aria-haspopup="menu"
+                aria-expanded="false"
+                aria-label="Open profile menu"
+              >
+                <% if (locals.user.photo) { %>
+                  <img class="nav-avatar" src="<%= user.photo %>" alt="<%= user.displayName %>" referrerpolicy="no-referrer" />
+                <% } else { %>
+                  <div class="nav-avatar nav-avatar-initials"><%= user.displayName ? user.displayName[0].toUpperCase() : '?' %></div>
+                <% } %>
+                <span class="nav-user-chevron" aria-hidden="true">&#9662;</span>
+              </button>
+              <div class="nav-user-dropdown" data-profile-dropdown>
+                <p class="nav-user-name"><%= user.displayName %></p>
+                <p class="nav-user-email"><%= user.email || '' %></p>
+                <div class="nav-user-divider"></div>
+                <a href="/auth/logout" class="nav-signout" data-profile-item tabindex="-1">Sign out</a>
+              </div>
+            </div>
+          <% } %>
+          <a href="/" class="btn-back">
+            <span>&#8592;</span>
+            Back to shelf
+          </a>
+        </div>
       </div>
     </nav>
 
@@ -42,10 +69,10 @@
 
         <div class="editor-layout">
 
-          <!--Book identity panel-->
+          <!-- book info side panel -->
           <aside class="editor-sidebar">
 
-            <!-- Book cover -->
+            <!-- cover -->
             <div class="editor-cover-wrap" style="--card-hue: <%= book.hue || 28 %>;">
               <div class="editor-cover-inner">
                 <% if (book.bookcoverid) { %>
@@ -69,7 +96,7 @@
               </div>
             </div>
 
-            <!-- Book metadata fields -->
+            <!-- metadata fields -->
             <div class="sidebar-fields">
               <div class="sidebar-field-group">
                 <label class="sidebar-label" for="edit-title">Title</label>
@@ -127,12 +154,12 @@
               </div>
             </div>
 
-            <!-- Sidebar save (for quick field-only saves) -->
+            <!-- quick save from sidebar -->
             <button type="submit" class="sidebar-save-btn">
               Save Changes
             </button>
 
-            <!-- Delete book -->
+            <!-- delete this book -->
             <form action="/delete" method="POST" class="sidebar-delete-form" data-title="<%= book.title %>">
               <input type="hidden" name="id" value="<%= book.id %>">
               <button type="submit" class="sidebar-delete-btn">&#128465; Delete Book</button>
@@ -140,7 +167,7 @@
 
           </aside>
 
-          <!--  Notes editor-->
+          <!-- notes editor -->
           <div class="editor-canvas">
 
             <div class="editor-canvas-header">
@@ -155,7 +182,7 @@
               </div>
             </div>
 
-            <!-- Formatting toolbar -->
+            <!-- format toolbar -->
             <div class="editor-toolbar" role="toolbar" aria-label="Formatting">
               <div class="toolbar-group">
                 <button type="button" class="tool-btn" data-cmd="bold" title="Bold">
@@ -182,7 +209,7 @@
               <span class="toolbar-hint">auto-saved as draft</span>
             </div>
 
-            <!-- The contenteditable writing surface -->
+            <!-- editable notes area -->
             <div
               class="editor-surface"
               id="editorSurface"
@@ -191,7 +218,7 @@
               data-placeholder="Begin writing your notes, thoughts, favourite quotes… This is your space."
             ><%= book.notes || '' %></div>
 
-            <!-- Hidden textarea that mirrors the editor for form submission -->
+            <!-- hidden textarea, used for form submit -->
             <textarea
               name="notes"
               id="notesHidden"
@@ -199,14 +226,14 @@
               aria-hidden="true"
             ><%= book.notes || '' %></textarea>
 
-            <!-- Floating quote pull-out (appears when text is selected) -->
+            <!-- quote button that pops up on selection -->
             <div class="quote-pullout" id="quotePullout">
               <button type="button" class="quote-pullout-btn" id="insertQuoteBtn">
                 &#10077; Pull quote
               </button>
             </div>
 
-            <!-- Editor footer -->
+            <!-- footer actions -->
             <div class="editor-footer">
               <div class="editor-footer-meta">
                 <span class="footer-last-saved" id="lastSaved">Unsaved changes</span>
@@ -226,7 +253,7 @@
     </main>
 
     <script>
-      // ── Mirror contenteditable → hidden textarea on submit ──
+      // keep hidden textarea in sync on submit
       const surface   = document.getElementById('editorSurface');
       const hidden    = document.getElementById('notesHidden');
       const wordCount = document.getElementById('wordCount');
@@ -244,7 +271,7 @@
 
       document.getElementById('editForm').addEventListener('submit', syncHidden);
 
-      // ── Live word count ──
+      // live word count
       surface.addEventListener('input', () => {
         updateWordCount();
         lastSaved.textContent = 'Unsaved changes';
@@ -252,7 +279,7 @@
         scheduleDraftSave();
       });
 
-      // ── Formatting toolbar ──
+      // toolbar actions
       document.querySelectorAll('.tool-btn[data-cmd]').forEach(btn => {
         btn.addEventListener('mousedown', e => {
           e.preventDefault(); // keep focus in editor
@@ -277,7 +304,7 @@
       surface.addEventListener('keyup', updateToolbarState);
       surface.addEventListener('mouseup', updateToolbarState);
 
-      // ── Quote pull-out: appears when text is selected ──
+      // show quote pullout when text is selected
       const pullout = document.getElementById('quotePullout');
       const insertQuoteBtn = document.getElementById('insertQuoteBtn');
 
@@ -287,13 +314,13 @@
           pullout.classList.remove('visible');
           return;
         }
-        // Only show inside the editor surface
+        // only show when selection is inside editor
         const range = sel.getRangeAt(0);
         if (!surface.contains(range.commonAncestorContainer)) {
           pullout.classList.remove('visible');
           return;
         }
-        // Position near the selection
+        // place it near selected text
         const rect = range.getBoundingClientRect();
         pullout.style.top  = `${rect.top + window.scrollY - 44}px`;
         pullout.style.left = `${rect.left + rect.width / 2}px`;
@@ -307,7 +334,7 @@
         surface.focus();
       });
 
-      //  Draft auto-save to localStorage 
+      // autosave draft to localstorage
       const DRAFT_KEY = 'booktracker-draft-<%= book.id %>';
       let draftTimer;
 
@@ -320,7 +347,7 @@
         }, 1500);
       }
 
-      // Restore draft if newer than saved content
+      // restore draft if it's different
       const saved = localStorage.getItem(DRAFT_KEY);
       if (saved && saved !== surface.innerHTML) {
         const banner = document.createElement('div');
@@ -344,7 +371,7 @@
         });
       }
 
-      // ── Sidebar star rating ──
+      // sidebar rating stars
       const sidebarStars = document.querySelectorAll('.sidebar-star');
       const sidebarRatingVal = document.getElementById('sidebarRatingValue');
 
@@ -365,14 +392,15 @@
         });
       });
 
-      // ── Initial word count ──
+      // initial word count
       updateWordCount();
 
-      // ── Delete confirm ──
+      // confirm before delete
       document.querySelector('.sidebar-delete-form').addEventListener('submit', (e) => {
         const title = e.currentTarget.dataset.title;
         if (!confirm(`Delete "${title}" from your shelf? This cannot be undone.`)) e.preventDefault();
       });
     </script>
+    <script src="/profile-menu.js"></script>
   </body>
 </html>

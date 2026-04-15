@@ -41,17 +41,27 @@
               <span class="btn-plus">+</span>
               <span>Add Book</span>
             </button>
-            <div class="nav-user">
-              <% if (locals.user.photo) { %>
-                <img class="nav-avatar" src="<%= user.photo %>" alt="<%= user.displayName %>" referrerpolicy="no-referrer" />
-              <% } else { %>
-                <div class="nav-avatar nav-avatar-initials"><%= user.displayName ? user.displayName[0].toUpperCase() : '?' %></div>
-              <% } %>
-              <div class="nav-user-dropdown">
+            <div class="nav-user" data-profile-menu>
+              <button
+                type="button"
+                class="nav-user-trigger"
+                data-profile-trigger
+                aria-haspopup="menu"
+                aria-expanded="false"
+                aria-label="Open profile menu"
+              >
+                <% if (locals.user.photo) { %>
+                  <img class="nav-avatar" src="<%= user.photo %>" alt="<%= user.displayName %>" referrerpolicy="no-referrer" />
+                <% } else { %>
+                  <div class="nav-avatar nav-avatar-initials"><%= user.displayName ? user.displayName[0].toUpperCase() : '?' %></div>
+                <% } %>
+                <span class="nav-user-chevron" aria-hidden="true">&#9662;</span>
+              </button>
+              <div class="nav-user-dropdown" data-profile-dropdown>
                 <p class="nav-user-name"><%= user.displayName %></p>
                 <p class="nav-user-email"><%= user.email || '' %></p>
                 <div class="nav-user-divider"></div>
-                <a href="/auth/logout" class="nav-signout">Sign out</a>
+                <a href="/auth/logout" class="nav-signout" data-profile-item tabindex="-1">Sign out</a>
               </div>
             </div>
           <% } else { %>

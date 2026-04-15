@@ -1,6 +1,6 @@
 <%- include('partials/header.ejs') %>
 
-      <!-- Hero / Page Header -->
+      <!-- hero / page header -->
       <section class="page-hero">
         <div class="hero-text">
           <p class="hero-eyebrow">Your reading life,</p>
@@ -13,7 +13,7 @@
         </div>
       </section>
 
-      <!-- Filter Bar -->
+      <!-- filter bar -->
       <section class="filter-bar">
         <div class="filter-inner">
           <div class="filter-tabs">
@@ -34,11 +34,11 @@
         </div>
       </section>
 
-      <!-- Book Grid -->
+      <!-- book grid -->
       <section class="books-section">
 
         <% if (!locals.books || books.length === 0) { %>
-        <!-- Empty State -->
+        <!-- empty state -->
         <div class="empty-state">
           <div class="empty-shelves">
             <div class="empty-shelf-row">
@@ -128,12 +128,12 @@
 
     </main>
 
-    <!-- add book modal -->
+    <!-- add-book modal -->
     <div class="modal-overlay" id="addBookOverlay">
       <div class="modal" id="addBookModal">
         <button class="modal-close" id="closeAddBook">&#10005;</button>
 
-        <!-- ──book details ── -->
+        <!-- book details step -->
         <div class="modal-step" id="stepDetails">
           <div class="modal-header">
             <p class="modal-eyebrow">New Entry</p>
@@ -223,7 +223,7 @@
           </form>
         </div>
 
-        <!-- ── Step 2: Cover picker (only rendered when server returns options) ── -->
+        <!-- step 2: cover picker (shows when server returns options) -->
         <% if (locals.openPicker) { %>
         <div class="modal-step" id="stepCoverPicker">
           <div class="modal-header">
@@ -259,7 +259,7 @@
           <p class="picker-no-results">No covers found for this title. The placeholder will be used.</p>
           <% } %>
 
-          <!-- final form that submits to /add with all data + chosen coverId -->
+          <!-- final submit to /add, includes picked cover id -->
           <form action="/add" method="POST" id="confirmForm">
             <input type="hidden" name="title"         value="<%= formData.title %>">
             <input type="hidden" name="author"        value="<%= formData.author %>">
@@ -281,7 +281,7 @@
       </div>
     </div>
 
-    <!-- notes modal — populated dynamically via JS -->
+    <!-- notes modal, filled by js -->
     <div class="modal-overlay" id="notesOverlay">
       <div class="modal modal-notes" id="notesModal">
         <button class="modal-close" id="closeNotes">&#10005;</button>
@@ -302,7 +302,7 @@
     <script type="application/json" id="booksJson"><%- JSON.stringify(locals.books || []) %></script>
 
     <script>
-      // Books data from server — used to populate the notes modal
+      // books from server, used in notes modal
       const booksData = JSON.parse(document.getElementById('booksJson').textContent);
 
       // modal open/close
@@ -329,19 +329,19 @@
       const pickerStep = document.getElementById('stepCoverPicker');
       const detailStep = document.getElementById('stepDetails');
       if (pickerStep) {
-        // hide step 1, show step 2
+        // hide step 1 and show step 2
         detailStep.style.display = 'none';
         pickerStep.style.display = 'block';
         openModal();
 
-        // sync the hidden coverId field when user picks a different radio
+        // keep hidden cover id synced with selected radio
         document.querySelectorAll('.cover-radio').forEach((radio) => {
           radio.addEventListener('change', () => {
             document.getElementById('finalCoverId').value = radio.value;
           });
         });
 
-        // skip cover — clear the coverId and submit
+        // skip cover: clear id and submit
         const skipBtn = document.getElementById('skipCoverBtn');
         if (skipBtn) {
           skipBtn.addEventListener('click', () => {
@@ -351,7 +351,7 @@
         }
       }
 
-      // modal: Notes
+      // notes modal
       const notesOverlay  = document.getElementById('notesOverlay');
       const closeNotesBtn = document.getElementById('closeNotes');
       const notesTitle    = document.getElementById('notesBookTitle');
@@ -370,7 +370,7 @@
           notesEditLink.href      = `/edit?id=${book.id}`;
 
           if (book.notes && book.notes.trim()) {
-            // notes saved from the rich editor arrive as HTML; plain text gets wrapped
+            // rich notes may already be html, plain text gets wrapped
             const isHtml = /<[a-z][\s\S]*>/i.test(book.notes);
             notesContent.innerHTML = isHtml
               ? book.notes
@@ -415,26 +415,26 @@
           document.querySelectorAll('.filter-tab').forEach((t) => t.classList.remove('active'));
           tab.classList.add('active');
 
-          //filter the books
+          // filter books
           const filterText = tab.textContent;
           filterBooks(filterText);
         });
       });
 
-      // staggered card entrance
+      // stagger card entrance
       const cards = document.querySelectorAll('.book-card');
       cards.forEach((card, i) => {
         card.style.animationDelay = `${i * 80}ms`;
       });
 
 
-      //filter function
+      // filter helper
       function filterBooks(genre){
         const cards = document.querySelectorAll(".book-card");
 
         cards.forEach(card => {
           if(genre == 'All Books'){
-            card.style.display = 'block'; //show all
+            card.style.display = 'block'; // show all
           } else if (genre == 'With Notes'){
             card.style.display = card.dataset.hasNotes === 'yes' ? 'block' : 'none';
           } else{
@@ -452,7 +452,7 @@
         });
       });
 
-      //sorting function
+      // sorting helper
       document.querySelector('.sort-select').addEventListener('change', (e) =>{
         const sortBy = e.target.value;
         const grid = document.querySelector('.books-grid');
@@ -467,11 +467,11 @@
           } else if(sortBy === 'Rating'){
             return parseInt(b.dataset.rating) - parseInt(a.dataset.rating);
           }
-          //date is already in order so do nothing
+          // date added already matches default order
           return 0;
         });
 
-        //re-order the cards on the grid
+        // put cards back in new order
         cards.forEach(card => grid.appendChild(card));
 
       })

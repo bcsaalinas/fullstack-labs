@@ -1,12 +1,8 @@
-/* ============================================================
-   BookTracker — Design System
-   Aesthetic: Warm editorial / literary magazine
-   Fonts: Playfair Display (display), Lora (body serif), DM Sans (UI)
-   ============================================================ */
+/* booktracker — design system aesthetic: warm editorial / literary magazine fonts: playfair display (display), lora (body serif), dm sans (ui) */
 
-/* ── Custom Properties ───────────────────────────────────────── */
+/* custom properties */
 :root {
-  /* Palette */
+  /* palette */
   --cream:        #f5f0e8;
   --cream-dark:   #ede6d6;
   --cream-deeper: #e4d9c3;
@@ -22,7 +18,7 @@
   --rose-light:   #cf7485;
   --paper-border: #d4c9b4;
 
-  /* Spacing */
+  /* spacing */
   --nav-h:    72px;
   --gap-sm:   0.75rem;
   --gap-md:   1.25rem;
@@ -32,12 +28,12 @@
   --r-md:     12px;
   --r-lg:     20px;
 
-  /* Shadows */
+  /* shadows */
   --shadow-card:  0 2px 8px rgba(26,22,18,.08), 0 8px 28px rgba(26,22,18,.06);
   --shadow-modal: 0 8px 32px rgba(26,22,18,.22), 0 32px 80px rgba(26,22,18,.14);
   --shadow-lift:  0 6px 24px rgba(26,22,18,.14), 0 20px 52px rgba(26,22,18,.10);
 
-  /* Transitions */
+  /* transitions */
   --ease-out: cubic-bezier(.22,.68,0,1.2);
   --ease-in:  cubic-bezier(.4,0,1,1);
   --t-fast:   160ms;
@@ -45,7 +41,7 @@
   --t-slow:   480ms;
 }
 
-/* ── Reset & Base ────────────────────────────────────────────── */
+/* reset & base */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -72,7 +68,7 @@ button, input, select, textarea {
   font-family: inherit;
 }
 
-/* ── Paper Noise Texture ─────────────────────────────────────── */
+/* paper noise texture */
 .page-noise {
   pointer-events: none;
   position: fixed;
@@ -83,7 +79,7 @@ button, input, select, textarea {
   background-size: 200px 200px;
 }
 
-/* Subtle grid lines on the background */
+/* subtle grid lines on the background */
 body::before {
   content: '';
   position: fixed;
@@ -96,7 +92,7 @@ body::before {
   z-index: 0;
 }
 
-/* ── Navigation ──────────────────────────────────────────────── */
+/* navigation */
 .site-nav {
   position: sticky;
   top: 0;
@@ -176,7 +172,7 @@ body::before {
   background: var(--paper-border);
 }
 
-/* ── Add Book Button ─────────────────────────────────────────── */
+/* add book button */
 .btn-add-book {
   display: flex;
   align-items: center;
@@ -207,7 +203,7 @@ body::before {
   line-height: 1;
 }
 
-/* ── Main Content ────────────────────────────────────────────── */
+/* main content */
 .main-content {
   position: relative;
   z-index: 1;
@@ -216,7 +212,7 @@ body::before {
   padding: 0 var(--gap-lg) var(--gap-xl);
 }
 
-/* ── Hero ────────────────────────────────────────────────────── */
+/* hero */
 .page-hero {
   padding: var(--gap-xl) 0 var(--gap-lg);
 }
@@ -259,7 +255,7 @@ body::before {
   opacity: .7;
 }
 
-/* ── Filter Bar ──────────────────────────────────────────────── */
+/* filter bar */
 .filter-bar {
   border-top: 1px solid var(--paper-border);
   border-bottom: 1px solid var(--paper-border);
@@ -359,7 +355,7 @@ body::before {
   border-color: var(--amber);
 }
 
-/* ── Books Grid ──────────────────────────────────────────────── */
+/* books grid */
 .books-section {
   padding: 0;
 }
@@ -370,7 +366,7 @@ body::before {
   gap: var(--gap-lg);
 }
 
-/* ── Book Card ───────────────────────────────────────────────── */
+/* book card */
 .book-card {
   background: #fff;
   border-radius: var(--r-md);
@@ -403,7 +399,7 @@ body::before {
   }
 }
 
-/* ── Book Cover Area ─────────────────────────────────────────── */
+/* book cover area */
 .book-cover-wrap {
   position: relative;
   width: 100%;
@@ -414,7 +410,7 @@ body::before {
   background: hsl(var(--card-hue, 28), 20%, 14%);
 }
 
-/* Physical spine strip — left edge of the cover */
+/* physical spine strip — left edge of the cover */
 .book-cover-wrap::before {
   content: '';
   position: absolute;
@@ -431,7 +427,7 @@ body::before {
   box-shadow: inset -4px 0 8px rgba(0,0,0,.25);
 }
 
-/* Spine highlight — the thin bright sliver */
+/* spine highlight — the thin bright sliver */
 .book-cover-wrap::after {
   content: '';
   position: absolute;
@@ -448,7 +444,7 @@ body::before {
   z-index: 4;
 }
 
-/* The cover itself — handles the 3-D tilt transition */
+/* the cover itself — handles the 3-d tilt transition */
 .book-cover-inner {
   position: absolute;
   inset: 0;
@@ -458,7 +454,7 @@ body::before {
   transform-style: preserve-3d;
 }
 
-/* Real cover image */
+/* real cover image */
 .book-cover-img {
   width: 100%;
   height: 100%;
@@ -467,7 +463,7 @@ body::before {
   display: block;
 }
 
-/* Overlay gradient — darkens the bottom of the image for legibility */
+/* overlay gradient — darkens the bottom of the image for legibility */
 .book-cover-inner::after {
   content: '';
   position: absolute;
@@ -480,7 +476,7 @@ body::before {
   pointer-events: none;
 }
 
-/* ── Fallback Placeholder Cover ──────────────────────────────── */
+/* fallback placeholder cover */
 .book-cover-placeholder {
   position: absolute;
   inset: 0;
@@ -491,7 +487,7 @@ body::before {
   padding: 1.5rem 1.5rem 1.5rem 2.8rem; /* account for spine */
   text-align: center;
 
-  /* Rich layered gradient that feels like a real book cover */
+  /* rich layered gradient that feels like a real book cover */
   background:
     radial-gradient(
       ellipse at 30% 20%,
@@ -512,7 +508,7 @@ body::before {
   color: #fff;
 }
 
-/* Decorative rule above title */
+/* decorative rule above title */
 .cover-ph-ornament {
   display: flex;
   align-items: center;
@@ -533,7 +529,7 @@ body::before {
   color: rgba(255,255,255,.8);
 }
 
-/* Placeholder title */
+/* placeholder title */
 .cover-ph-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(0.95rem, 2.5vw, 1.25rem);
@@ -543,7 +539,7 @@ body::before {
   color: rgba(255,255,255,.95);
   letter-spacing: -0.01em;
   margin-bottom: 0.6rem;
-  /* Clamp at 3 lines */
+  /* clamp at 3 lines */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
@@ -551,7 +547,7 @@ body::before {
   overflow: hidden;
 }
 
-/* Decorative rule below title */
+/* decorative rule below title */
 .cover-ph-divider {
   width: 36px;
   height: 1px;
@@ -559,7 +555,7 @@ body::before {
   margin: 0 auto 0.55rem;
 }
 
-/* Placeholder author */
+/* placeholder author */
 .cover-ph-author {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.62rem;
@@ -569,7 +565,7 @@ body::before {
   color: rgba(255,255,255,.55);
 }
 
-/* Genre badge overlaid on the cover — bottom right */
+/* genre badge overlaid on the cover — bottom right */
 .cover-badge {
   position: absolute;
   bottom: 0.75rem;
@@ -589,7 +585,7 @@ body::before {
   border: 1px solid rgba(255,255,255,.12);
 }
 
-/* Coloured spine based on --card-hue (legacy, kept for compatibility) */
+/* coloured spine based on --card-hue (legacy, kept for compatibility) */
 .book-spine {
   display: none; /* replaced by cover-wrap::before */
 }
@@ -609,7 +605,7 @@ body::before {
   margin-bottom: 0.25rem;
 }
 
-/* Genre badge in card-body (fallback if not using cover badge) */
+/* genre badge in card-body (fallback if not using cover badge) */
 .book-genre {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.66rem;
@@ -661,7 +657,7 @@ body::before {
   margin-top: 0.1rem;
 }
 
-/* Notes preview on card */
+/* notes preview on card */
 .notes-preview {
   margin-top: 0.75rem;
   padding: 0.85rem;
@@ -693,7 +689,7 @@ body::before {
   -webkit-box-orient: vertical;
 }
 
-/* Card Actions */
+/* card actions */
 .card-actions {
   display: flex;
   align-items: center;
@@ -788,7 +784,7 @@ body::before {
   border-color: #f5c6c6;
 }
 
-/* ── Modal Base ──────────────────────────────────────────────── */
+/* modal base */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -829,7 +825,7 @@ body::before {
   opacity: 0;
   transition: transform var(--t-slow) var(--ease-out), opacity var(--t-med) ease;
 
-  /* Subtle inner paper lines */
+  /* subtle inner paper lines */
   background-image: repeating-linear-gradient(
     transparent,
     transparent 27px,
@@ -839,7 +835,7 @@ body::before {
   background-attachment: local;
 }
 
-/* Custom scrollbar for modal */
+/* custom scrollbar for modal */
 .modal::-webkit-scrollbar {
   width: 4px;
 }
@@ -898,7 +894,7 @@ body::before {
   line-height: 1.15;
 }
 
-/* ── Add Book Form ───────────────────────────────────────────── */
+/* add book form */
 .book-form {
   display: flex;
   flex-direction: column;
@@ -980,7 +976,7 @@ body::before {
   font-style: italic;
 }
 
-/* ── Star Rating Input ───────────────────────────────────────── */
+/* star rating input */
 .rating-input {
   display: flex;
   gap: 4px;
@@ -1004,7 +1000,7 @@ body::before {
   transform: scale(1.2);
 }
 
-/* ── Form Buttons ────────────────────────────────────────────── */
+/* form buttons */
 .form-actions {
   display: flex;
   gap: var(--gap-sm);
@@ -1051,9 +1047,9 @@ body::before {
   box-shadow: 0 4px 16px rgba(58,92,69,.35);
 }
 
-/* ── Cover Picker (Step 2) ───────────────────────────────────── */
+/* cover picker (step 2) */
 #stepCoverPicker {
-  display: none; /* shown via JS when server returns openPicker */
+  display: none; /* shown via js when server returns openpicker */
 }
 
 .picker-subtitle {
@@ -1080,7 +1076,7 @@ body::before {
   margin: var(--gap-md) 0 var(--gap-lg);
 }
 
-/* Each cover option is a radio wrapped in a label */
+/* each cover option is a radio wrapped in a label */
 .cover-option {
   position: relative;
   cursor: pointer;
@@ -1100,7 +1096,7 @@ body::before {
   box-shadow: var(--shadow-lift);
 }
 
-/* Highlight selected */
+/* highlight selected */
 .cover-option:has(.cover-radio:checked) {
   border-color: var(--amber);
   box-shadow: 0 0 0 3px rgba(196,135,58,.2);
@@ -1122,7 +1118,7 @@ body::before {
   display: block;
 }
 
-/* Checkmark badge on selected cover */
+/* checkmark badge on selected cover */
 .cover-option-check {
   position: absolute;
   top: 0.4rem;
@@ -1149,7 +1145,7 @@ body::before {
   transform: scale(1);
 }
 
-/* Small title label at the bottom of each cover */
+/* small title label at the bottom of each cover */
 .cover-option-label {
   position: absolute;
   bottom: 0;
@@ -1169,7 +1165,7 @@ body::before {
   overflow: hidden;
 }
 
-/* Secondary (skip) button */
+/* secondary (skip) button */
 .btn-secondary {
   padding: 0.65rem 1.2rem;
   background: transparent;
@@ -1187,7 +1183,7 @@ body::before {
   color: var(--ink);
 }
 
-/* ── Notes Modal ─────────────────────────────────────────────── */
+/* notes modal */
 .modal-notes {
   max-width: 580px;
 }
@@ -1263,7 +1259,7 @@ body::before {
   color: var(--ink);
 }
 
-/* ── Empty State ─────────────────────────────────────────────── */
+/* empty state */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -1272,7 +1268,7 @@ body::before {
   text-align: center;
 }
 
-/* Ghost bookshelf illustration */
+/* ghost bookshelf illustration */
 .empty-shelves {
   position: relative;
   width: min(420px, 90vw);
@@ -1287,7 +1283,7 @@ body::before {
   padding: 0 8px 0;
 }
 
-/* Each ghost book slot */
+/* each ghost book slot */
 .empty-slot {
   width: 38px;
   height: var(--slot-h, 76px);
@@ -1306,7 +1302,7 @@ body::before {
     inset -1px 0 0 rgba(0,0,0,.06);
 }
 
-/* Faint title line on each ghost book */
+/* faint title line on each ghost book */
 .empty-slot::before {
   content: '';
   position: absolute;
@@ -1334,7 +1330,7 @@ body::before {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Shelf plank */
+/* shelf plank */
 .empty-shelf-plank {
   height: 8px;
   border-radius: 0 0 4px 4px;
@@ -1349,7 +1345,7 @@ body::before {
   animation: slotRise 400ms var(--ease-out) 380ms both;
 }
 
-/* Text copy */
+/* text copy */
 .empty-copy {
   max-width: 420px;
   opacity: 0;
@@ -1421,7 +1417,7 @@ body::before {
   line-height: 1;
 }
 
-/* ── Nav Auth Area ───────────────────────────────────────────── */
+/* nav auth area */
 .nav-auth {
   display: flex;
   align-items: center;
@@ -1429,7 +1425,7 @@ body::before {
   margin-left: var(--gap-md);
 }
 
-/* Google sign-in button (nav compact version) */
+/* google sign-in button (nav compact version) */
 .btn-google-signin {
   display: inline-flex;
   align-items: center;
@@ -1463,9 +1459,38 @@ body::before {
   flex-shrink: 0;
 }
 
-/* User avatar in nav */
+/* user avatar in nav */
 .nav-user {
   position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-user-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.35rem 0.25rem 0.25rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    border-color var(--t-fast) ease,
+    background var(--t-fast) ease,
+    box-shadow var(--t-fast) ease;
+}
+
+.nav-user-trigger:hover,
+.nav-user-trigger:focus-visible,
+.nav-user.is-open .nav-user-trigger {
+  border-color: rgba(196,135,58,.25);
+  background: rgba(255,255,255,.56);
+  box-shadow: 0 8px 18px rgba(26,22,18,.08);
+}
+
+.nav-user-trigger:focus-visible {
+  outline: none;
 }
 
 .nav-avatar {
@@ -1491,36 +1516,58 @@ body::before {
   cursor: pointer;
 }
 
-.nav-user:hover .nav-avatar {
+.nav-user:hover .nav-avatar,
+.nav-user-trigger:focus-visible .nav-avatar,
+.nav-user.is-open .nav-avatar {
   border-color: var(--amber);
   box-shadow: 0 0 0 3px rgba(196,135,58,.18);
 }
 
-/* Dropdown revealed on hover */
+.nav-user-chevron {
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  transition:
+    transform var(--t-fast) var(--ease-out),
+    color var(--t-fast) ease;
+}
+
+.nav-user.is-open .nav-user-chevron,
+.nav-user:hover .nav-user-chevron {
+  color: var(--amber);
+  transform: rotate(180deg);
+}
+
+/* dropdown revealed on hover/click */
 .nav-user-dropdown {
   position: absolute;
-  top: calc(100% + 10px);
+  top: 100%;
   right: 0;
   min-width: 200px;
+  margin-top: 10px;
   background: var(--cream);
   border: 1px solid var(--paper-border);
   border-radius: var(--r-md);
   box-shadow: var(--shadow-modal);
   padding: 0.85rem 1rem;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(6px) scale(.97);
   transition:
     opacity var(--t-med) ease,
-    transform var(--t-med) var(--ease-out);
+    transform var(--t-med) var(--ease-out),
+    visibility 0s linear var(--t-med);
   z-index: 200;
 }
 
-.nav-user:hover .nav-user-dropdown,
+.nav-user.is-open .nav-user-dropdown,
+.nav-user.is-hovered .nav-user-dropdown,
 .nav-user:focus-within .nav-user-dropdown {
   opacity: 1;
+  visibility: visible;
   pointer-events: all;
   transform: translateY(0) scale(1);
+  transition-delay: 0s;
 }
 
 .nav-user-name {
@@ -1557,7 +1604,7 @@ body::before {
   color: var(--rose-light);
 }
 
-/* ── Login Page ──────────────────────────────────────────────── */
+/* login page */
 .login-page {
   background-color: var(--cream);
 }
@@ -1573,7 +1620,7 @@ body::before {
   gap: var(--gap-xl);
 }
 
-/* Decorative ghost book columns */
+/* decorative ghost book columns */
 .login-deco {
   display: flex;
   align-items: flex-end;
@@ -1615,7 +1662,7 @@ body::before {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Login card */
+/* login card */
 .login-card {
   background: #fff;
   border-radius: var(--r-lg);
@@ -1697,7 +1744,7 @@ body::before {
   opacity: .6;
 }
 
-/* Error banner */
+/* error banner */
 .login-error {
   width: 100%;
   background: #fff5f5;
@@ -1717,7 +1764,7 @@ body::before {
   flex-shrink: 0;
 }
 
-/* Large Google button (login page) */
+/* large google button (login page) */
 .btn-google-signin--large {
   width: 100%;
   justify-content: center;
@@ -1747,7 +1794,7 @@ body::before {
   opacity: .75;
 }
 
-/* Hide decorative books on small screens */
+/* hide decorative books on small screens */
 @media (max-width: 900px) {
   .login-deco { display: none; }
 }
@@ -1762,7 +1809,7 @@ body::before {
   }
 }
 
-/* ── Footer ──────────────────────────────────────────────────── */
+/* footer */
 .site-footer {
   border-top: 1px solid var(--paper-border);
   padding: var(--gap-lg);
@@ -1774,7 +1821,7 @@ body::before {
   letter-spacing: 0.03em;
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/* responsive */
 @media (max-width: 768px) {
   :root {
     --gap-lg: 1.25rem;
