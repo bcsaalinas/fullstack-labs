@@ -32,32 +32,68 @@ function App() {
     });
   }
 
-  return (
-    <>
-      <h1>To Do List</h1>
-      <input
-        onChange={handleFormSubmit}
-        type="text"
-        placeholder="Add your next task "
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            pushTask();
-          }
-        }}
-        value={inputText}
-      />
-      <span>
-        <button onClick={pushTask}> Add task</button>
-      </span>
+  const encouragements = [
+    "you've got this ✦",
+    "one step at a time ✦",
+    "make it happen ✦",
+    "stay focused ✦",
+  ];
+  const phrase = encouragements[tasks.length % encouragements.length];
 
-      <ul>
-        {tasks.map((task, index) => {
-          return (
+  return (
+    <div className="app-container">
+      <header className="app-header">
+        <h1 className="app-title">
+          my list
+          {tasks.length > 0 && (
+            <span className="task-count">{tasks.length}</span>
+          )}
+        </h1>
+        <p className="app-subtitle">tap a task to delete it when done</p>
+      </header>
+
+      <div className="input-area">
+        <input
+          className="task-input"
+          onChange={handleFormSubmit}
+          type="text"
+          placeholder="what's next for you?"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              pushTask();
+            }
+          }}
+          value={inputText}
+          autoFocus
+        />
+        <button
+          className="add-btn"
+          onClick={pushTask}
+          disabled={!inputText.trim()}
+          title="Add task"
+          aria-label="Add task"
+        >
+          +
+        </button>
+      </div>
+
+      {tasks.length > 0 && <div className="divider" />}
+
+      <ul className="task-list">
+        {tasks.length === 0 ? (
+          <div className="empty-state">
+            <span className="empty-icon">✎</span>
+            <p>nothing here yet — start writing!</p>
+          </div>
+        ) : (
+          tasks.map((task, index) => (
             <Task key={index} id={index} text={task} onCheck={deleteTask} />
-          );
-        })}
+          ))
+        )}
       </ul>
-    </>
+
+      {tasks.length > 0 && <p className="encouragement">{phrase}</p>}
+    </div>
   );
 }
 

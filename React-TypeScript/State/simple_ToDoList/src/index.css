@@ -1,5 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream: #fdf8f0;
+  --paper: #f5ede0;
+  --warm-tan: #e8d5be;
+  --amber: #d4843e;
+  --amber-light: #e8a55a;
+  --amber-dark: #b06020;
+  --ink: #2c1f0e;
+  --ink-soft: #5a4030;
+  --ink-faint: #9a7a60;
+  --green-check: #5a9a6a;
+  --red-delete: #c0504a;
+  --shadow-warm: 0 4px 20px rgba(180, 100, 30, 0.12);
+  --shadow-card: 0 2px 12px rgba(44, 31, 14, 0.10);
+}
+
 body {
-  background-color: rgb(53, 53, 53);
-  box-sizing: content-box;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(232, 165, 90, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(212, 132, 62, 0.12) 0%, transparent 55%);
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 20px 80px;
+}
+
+/* Subtle paper texture lines */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 27px,
+    rgba(180, 130, 80, 0.07) 27px,
+    rgba(180, 130, 80, 0.07) 28px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ─── App Container ─── */
+.app-container {
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 40px 36px 48px;
+  box-shadow:
+    var(--shadow-warm),
+    0 1px 0 rgba(255,255,255,0.8) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Red margin line like real paper */
+.app-container::before {
+  content: '';
+  position: absolute;
+  left: 68px;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: rgba(200, 80, 80, 0.18);
+}
+
+/* ─── Header ─── */
+.app-header {
+  margin-bottom: 32px;
+  padding-left: 16px;
+}
+
+.app-title {
+  font-family: 'Caveat', cursive;
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--amber-dark);
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.app-subtitle {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink-faint);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+.task-count {
+  display: inline-block;
+  background: var(--amber);
   color: white;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 8px;
+  vertical-align: middle;
+  transform: translateY(-2px);
+  transition: background 0.3s ease;
+}
+
+/* ─── Input Area ─── */
+.input-area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding-left: 16px;
+  align-items: stretch;
+}
+
+.task-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--warm-tan);
+  padding: 10px 4px;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.25s ease;
+  caret-color: var(--amber);
+}
+
+.task-input::placeholder {
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.task-input:focus {
+  border-bottom-color: var(--amber);
+}
+
+.add-btn {
+  background: var(--amber);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(180, 90, 20, 0.25);
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin-bottom: 2px;
+  line-height: 1;
+}
+
+.add-btn:hover {
+  background: var(--amber-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(180, 90, 20, 0.35);
+}
+
+.add-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(180, 90, 20, 0.2);
+}
+
+.add-btn:disabled {
+  background: var(--warm-tan);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Divider ─── */
+.divider {
+  height: 1px;
+  background: var(--warm-tan);
+  margin: 0 0 20px;
+  margin-left: 16px;
+}
+
+/* ─── Empty State ─── */
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  animation: fadeIn 0.4s ease;
+}
+
+.empty-state .empty-icon {
+  font-family: 'Caveat', cursive;
+  font-size: 52px;
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.empty-state p {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--ink-faint);
+}
+
+/* ─── Task List ─── */
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 16px;
+}
+
+/* ─── Task Item ─── */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  cursor: default;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.task-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--amber);
+  border-radius: 10px 0 0 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.task-item:hover {
+  border-color: var(--warm-tan);
+  transform: translateX(3px);
+  box-shadow: 0 4px 18px rgba(44, 31, 14, 0.13);
+}
+
+.task-item:hover::before {
+  opacity: 1;
+}
+
+.task-item:hover .delete-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.task-number {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--ink-faint);
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.task-text {
+  flex: 1;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--red-delete);
+  font-size: 16px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.delete-btn:hover {
+  background: rgba(192, 80, 74, 0.08);
+  transform: scale(1.15) !important;
+}
+
+/* ─── Animations ─── */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Footer encouragement ─── */
+.encouragement {
+  text-align: center;
+  margin-top: 28px;
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: var(--ink-faint);
+  opacity: 0.7;
+  padding-left: 16px;
 }
