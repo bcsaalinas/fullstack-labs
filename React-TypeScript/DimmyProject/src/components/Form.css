@@ -1,0 +1,23 @@
+.goal-form {
+  background: var(--c-surface);
+  border-radius: var(--r-lg);
+  padding: 2rem;
+  border: var(--border-soft);
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.goal-form__title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--c-ink);
+  margin: 0;
+}
+
+.goal-form__submit {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}

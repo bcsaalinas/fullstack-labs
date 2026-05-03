@@ -37,6 +37,7 @@ function App() {
     "one step at a time ✦",
     "make it happen ✦",
     "stay focused ✦",
+    "you can make it happenn ✦",
   ];
   const phrase = encouragements[tasks.length % encouragements.length];
 
@@ -96,5 +97,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

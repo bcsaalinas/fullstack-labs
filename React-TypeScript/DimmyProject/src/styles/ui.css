@@ -1,0 +1,121 @@
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 0.875rem 2rem;
+  font: 700 0.9rem/1 var(--font-sans);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease,
+    border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(196, 135, 107, 0.55);
+  outline-offset: 3px;
+}
+
+.btn--primary {
+  background: var(--c-accent);
+  color: var(--c-bg);
+}
+
+.btn--primary:hover {
+  background: var(--c-accent-hover);
+  box-shadow: 0 8px 32px rgba(196, 135, 107, 0.35);
+}
+
+.btn--primary:active {
+  transform: translateY(1px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--c-muted);
+  border: 1px solid rgba(54, 33, 25, 0.18);
+  font-weight: 500;
+}
+
+.btn--ghost:hover {
+  color: var(--c-ink);
+  border-color: rgba(54, 33, 25, 0.35);
+}
+
+.btn--sm {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+.link {
+  font: 500 0.875rem/1 var(--font-sans);
+  color: var(--c-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--c-ink);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--c-muted);
+}
+
+.icon-btn:hover {
+  color: var(--c-ink);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid rgba(196, 135, 107, 0.55);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+.field-label {
+  display: block;
+  font: 600 0.75rem/1 var(--font-sans);
+  color: var(--c-muted-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.field-input {
+  width: 100%;
+  background: var(--c-bg);
+  border: 1px solid rgba(54, 33, 25, 0.14);
+  border-radius: var(--r-sm);
+  padding: 0.75rem 1rem;
+  font: 500 0.9rem/1.2 var(--font-sans);
+  color: var(--c-ink);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input:focus {
+  border-color: rgba(196, 135, 107, 0.65);
+  box-shadow: 0 0 0 3px rgba(196, 135, 107, 0.12);
+}
