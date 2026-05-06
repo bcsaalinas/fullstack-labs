@@ -58,6 +58,77 @@
   margin: 0;
 }
 
+.dashboard__goals {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Transparent backdrop — override Tailwind color resolution issue */
+[data-slot="sheet-overlay"] {
+  background-color: transparent !important;
+}
+
+/* Sheet overrides — Dimmy palette */
+.sheet-dimmy {
+  background: var(--c-bg) !important;
+  border-left: var(--border-soft-2) !important;
+  max-width: 400px !important;
+  padding: 0 !important;
+}
+
+.sheet-dimmy__header {
+  padding: 1.75rem 2rem 1.25rem !important;
+  border-bottom: var(--border-soft);
+}
+
+.sheet-dimmy__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sheet-dimmy__title {
+  font-family: var(--font-serif) !important;
+  font-size: 1.25rem !important;
+  font-weight: 400 !important;
+  color: var(--c-ink) !important;
+}
+
+.sheet-dimmy__close {
+  color: var(--c-muted);
+  transition: color 0.15s ease;
+}
+
+.sheet-dimmy__close:hover {
+  color: var(--c-ink);
+}
+
+.sheet-dimmy__body {
+  padding: 1.5rem 2rem 2rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.sheet-dimmy__body .goal-form {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  gap: 1.5rem;
+}
+
+.sheet-dimmy__body .goal-form__title {
+  display: none;
+}
+
+.sheet-dimmy__body .goal-form__submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.5rem;
+}
+
 @media (max-width: 900px) {
   .dashboard {
     padding-left: 1.5rem;
@@ -68,5 +139,10 @@
     gap: 1rem;
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .sheet-dimmy {
+    max-width: 100% !important;
+    width: 100% !important;
   }
 }

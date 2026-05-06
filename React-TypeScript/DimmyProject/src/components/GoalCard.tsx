@@ -10,7 +10,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
   const remaining = goal.targetPrice - goal.amountSaved;
 
   return (
-    <div className="goal-card">
+    <div className="goal-card goal-card-animate">
       {/* Header */}
       <div className="goal-card__header">
         <h2 className="goal-card__name">

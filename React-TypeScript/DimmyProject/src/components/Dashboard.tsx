@@ -3,6 +3,13 @@ import type { Goal } from "../types/Goal";
 import type { NewGoalData } from "../types/NewGoalData";
 import Form from "./Form";
 import "./Dashboard.css";
+import GoalCard from "./GoalCard";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 export default function Dashboard() {
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -18,6 +25,8 @@ export default function Dashboard() {
     };
 
     setGoals((prevGoals) => {
+      console.log("I was triggered!");
+      console.log(goals);
       return [...prevGoals, newGoal];
     });
   }
@@ -44,7 +53,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {goals.length === 0 && (
+        {goals.length === 0 ? (
           <div className="dashboard__empty">
             <div className="dashboard__empty-icon">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -70,9 +79,54 @@ export default function Dashboard() {
               Set a target, a date, and how much you've already saved.
             </p>
           </div>
+        ) : (
+          <div className="dashboard__goals">
+            {goals.map((goal) => (
+              <GoalCard
+                key={goal.id}
+                goal={{
+                  id: goal.id,
+                  name: goal.name,
+                  targetPrice: goal.targetPrice,
+                  targetDate: goal.targetDate,
+                  amountSaved: goal.amountSaved,
+                }}
+              />
+            ))}
+          </div>
         )}
 
-        {isFormOpen && <Form onAddGoal={addGoal} />}
+        <Sheet open={isFormOpen} onOpenChange={setIsFormOpen}>
+          <SheetContent side="right" showCloseButton={false} className="sheet-dimmy">
+            <SheetHeader className="sheet-dimmy__header">
+              <div className="sheet-dimmy__title-row">
+                <SheetTitle className="sheet-dimmy__title">New goal</SheetTitle>
+                <button
+                  onClick={() => setIsFormOpen(false)}
+                  className="sheet-dimmy__close icon-btn"
+                  aria-label="Close"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M3 3l10 10M13 3L3 13"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </SheetHeader>
+            <div className="sheet-dimmy__body">
+              <Form
+                onAddGoal={(goal) => {
+                  addGoal(goal);
+                  setIsFormOpen(false);
+                }}
+              />
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   );

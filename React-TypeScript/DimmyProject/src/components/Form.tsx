@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { NewGoalData } from "../types/NewGoalData";
+import type { Goal } from "../types/Goal";
 import "./Form.css";
 
 type FormProps = {
@@ -7,7 +8,6 @@ type FormProps = {
 };
 
 export default function Form({ onAddGoal }: FormProps) {
-  //
   const [currentGoal, setCurrentGoal] = useState({
     name: "",
     targetPrice: "",
@@ -40,9 +40,34 @@ export default function Form({ onAddGoal }: FormProps) {
 
     console.log(currentGoal);
   }
+  //helper function to build the goal object when its submitted
+  function buildGoal(): Goal {
+    const goal = {
+      id: crypto.randomUUID(),
+      name: currentGoal.name,
+      targetPrice: Number(currentGoal.targetPrice),
+      targetDate: currentGoal.targetDate,
+      amountSaved: Number(currentGoal.amountSaved),
+    };
+    console.log("I was built!, from the buildGoal function");
+    return goal;
+  }
 
   return (
-    <form className="goal-form" action="#">
+    <form
+      className="goal-form"
+      action="#"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onAddGoal(buildGoal());
+        setCurrentGoal({
+          name: "",
+          targetPrice: "",
+          targetDate: "",
+          amountSaved: "",
+        });
+      }}
+    >
       <h3 className="goal-form__title">New goal</h3>
 
       <div>
@@ -73,7 +98,18 @@ export default function Form({ onAddGoal }: FormProps) {
           type="date"
           name="targetDate"
           onChange={handleChange}
-          placeholder=""
+          className="field-input"
+        />
+      </div>
+
+      <div>
+        <label className="field-label">Do you have anything saved? </label>
+        <input
+          type="text"
+          name="amountSaved"
+          onChange={handleChange}
+          placeholder="e.g $10"
+          className="field-input"
         />
       </div>
 
