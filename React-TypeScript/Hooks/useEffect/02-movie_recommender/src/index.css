@@ -1,0 +1,253 @@
+:root {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #181716;
+  background: #f4f1eb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #f4f1eb;
+}
+
+button {
+  font: inherit;
+}
+
+.container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+}
+
+.main-card {
+  width: min(100%, 380px);
+  padding: 30px;
+  text-align: center;
+  background: #fffdf8;
+  border: 1px solid #ded7ca;
+  border-radius: 8px;
+  box-shadow: 0 18px 50px rgba(44, 37, 28, 0.08);
+}
+
+.text-wrapper {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.main-card h1 {
+  margin: 0;
+  color: #181716;
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.main-card > p {
+  margin: 14px auto 24px;
+  max-width: 28ch;
+  color: #6d675f;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.button-009 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  color: #fffdf8;
+  background: #181716;
+  border: 1px solid #181716;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.button-009:hover {
+  color: #181716;
+  background: transparent;
+}
+
+.button-009:active {
+  transform: translateY(1px);
+}
+
+.button-009:focus-visible {
+  outline: 3px solid rgba(24, 23, 22, 0.22);
+  outline-offset: 3px;
+}
+
+.button-009__inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-009__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.button-009__icon.is--left,
+.button-009__bg {
+  display: none;
+}
+
+.button-009__text {
+  font-size: 0.92rem;
+}
+
+.movie-card {
+  margin-top: 28px;
+  text-align: left;
+}
+
+.movie-poster {
+  position: relative;
+  overflow: hidden;
+  background: #ebe5da;
+  border: 1px solid #ded7ca;
+  border-radius: 8px;
+}
+
+.movie-poster img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.info-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  color: #fffdf8;
+  background: rgba(24, 23, 22, 0.72);
+  border: 1px solid rgba(255, 253, 248, 0.3);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.info-button:hover {
+  background: rgba(24, 23, 22, 0.9);
+}
+
+.info-button:focus-visible {
+  outline: 3px solid rgba(255, 253, 248, 0.45);
+  outline-offset: 3px;
+}
+
+.movie-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 6px;
+  padding: 22px;
+  color: #fffdf8;
+  background: linear-gradient(
+    180deg,
+    rgba(24, 23, 22, 0.08),
+    rgba(24, 23, 22, 0.88)
+  );
+}
+
+.movie-info h3,
+.movie-info p,
+.movie-meta h1,
+.movie-meta h2 {
+  margin: 0;
+}
+
+.movie-info h3 {
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.movie-info p {
+  color: rgba(255, 253, 248, 0.78);
+  font-size: 0.92rem;
+}
+
+.movie-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.movie-meta h1 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.movie-meta h2 {
+  flex: none;
+  color: #81786d;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+@media (max-width: 420px) {
+  .main-card {
+    padding: 24px;
+  }
+
+  .movie-meta {
+    display: block;
+  }
+
+  .movie-meta h2 {
+    margin-top: 4px;
+  }
+}
+
+.movie-detail-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: end;
+  padding: 14px;
+  background: rgba(24, 23, 22, 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.detail-card {
+  width: 100%;
+  padding: 18px;
+  color: #181716;
+  background: rgba(255, 253, 248, 0.94);
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+
+.detail-close {
+  float: right;
+  border: 0;
+  background: transparent;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
