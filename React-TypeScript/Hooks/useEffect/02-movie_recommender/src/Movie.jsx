@@ -43,10 +43,12 @@ export default function Movie(props) {
         )}
       </div>
 
-      <div className="movie-meta">
-        <h1>{props.title}</h1>
-        <h2>{props.year}</h2>
-      </div>
+      {!showInfo && (
+        <div className="movie-meta">
+          <h1>{props.title}</h1>
+          <h2>{props.year}</h2>
+        </div>
+      )}
 
       {showInfo && (
         <DetailCard

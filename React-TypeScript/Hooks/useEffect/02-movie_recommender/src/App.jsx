@@ -23,42 +23,52 @@ function App() {
 
   //generate a movie using effect hook
   useEffect(() => {
+    let active = true;
+
     async function fetchData() {
       if (!movieID) return;
+
       const key = import.meta.env.VITE_API_KEY;
 
       //hit the api with the generated movie ID
       const link = `http://www.omdbapi.com/?i=${movieID}&apikey=${key}&p=long`;
       console.log(link);
-      let res = await fetch(link);
-      const data = await res.json();
-      console.log(data);
+      if (active) {
+        let res = await fetch(link);
+        const data = await res.json();
+        console.log(data);
 
-      //grab the title and year from the selected movie
-      const movieTitle = data.Title;
-      const movieYear = data.Year;
-      console.log(data.Genre);
+        //grab the title and year from the selected movie
+        const movieTitle = data.Title;
+        const movieYear = data.Year;
+        console.log(data.Genre);
 
-      const imgLink = `https://img.omdbapi.com/?apikey=${key}&i=${movieID}`;
-      let img = await fetch(imgLink);
-      const imgData = await img;
-      let imageUrl = imgData.url;
-      imageUrl = imageUrl.slice(0);
+        const imgLink = `https://img.omdbapi.com/?apikey=${key}&i=${movieID}`;
+        let img = await fetch(imgLink);
+        const imgData = await img;
+        let imageUrl = imgData.url;
+        imageUrl = imageUrl.slice(0);
 
-      //update the movieData object with the info from the api response
-      setMovieData({
-        title: movieTitle,
-        year: movieYear,
-        image: imageUrl,
-        genre: data.Genre,
-        director: data.Director,
-        runtime: data.Runtime,
-        rating: data.imdbRating,
-        plot: data.Plot,
-      });
+        //update the movieData object with the info from the api response
+        setMovieData({
+          title: movieTitle,
+          year: movieYear,
+          image: imageUrl,
+          genre: data.Genre,
+          director: data.Director,
+          runtime: data.Runtime,
+          rating: data.imdbRating,
+          plot: data.Plot,
+        });
+      }
     }
-
     fetchData();
+
+    //cleanup function
+    return () => {
+      //return false in case the component unmounts before the fetch is complete
+      active = false;
+    };
   }, [movieID]);
 
   return (
