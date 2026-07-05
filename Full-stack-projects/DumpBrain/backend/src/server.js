@@ -1,10 +1,15 @@
 import express from "express";
 import notesRoutes from "./routes/notesRoutes.js";
+import { connectDB } from "./config/db.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
 app.use("/api/notes", notesRoutes);
 
-app.listen(3000, () => {
-  console.log("running on port http://localhost:3000");
+connectDB();
+
+app.listen(process.env.PORT, () => {
+  console.log("running on port http://localhost:", process.env.PORT);
 });
