@@ -6,10 +6,20 @@ dotenv.config();
 
 const app = express();
 
-app.use("/api/notes", notesRoutes);
+// Built-in Express middleware to parse JSON and URL-encoded bodies
+app.use(express.json()); // to support json encoded-bodies
+
+// to support url-encoded bodies
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
+
+app.use("/api/", notesRoutes);
 
 connectDB();
 
 app.listen(process.env.PORT, () => {
-  console.log("running on port http://localhost:", process.env.PORT);
+  console.log(`running on port http://localhost:${process.env.PORT}`);
 });
