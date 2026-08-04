@@ -1,10 +1,12 @@
+import cors from "cors";
 import express from "express";
-import notesRoutes from "./routes/notesRoutes.js";
-import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
-import rateLimiter from "./middleware/rateLimiter.js";
-dotenv.config();
 
+import { connectDB } from "./config/db.js";
+import rateLimiter from "./middleware/rateLimiter.js";
+import notesRoutes from "./routes/notesRoutes.js";
+
+dotenv.config();
 const app = express();
 
 // Built-in Express middleware to parse JSON and URL-encoded bodies
@@ -14,6 +16,13 @@ app.use(express.json()); // to support json encoded-bodies
 app.use(
   express.urlencoded({
     extended: true,
+  }),
+);
+
+// Enable CORS for requests from the frontend, which allows the frontend to make requests to the backend without being blocked by the browser's same-origin policy.
+app.use(
+  cors({
+    origin: "http://localhost:5173",
   }),
 );
 
