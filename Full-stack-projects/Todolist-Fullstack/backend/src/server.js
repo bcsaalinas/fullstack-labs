@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import devRouter from "./routes/devRoutes.js";
 import mainRouter from "./routes/mainRoutes.js";
+import sessionMiddleware from "./config/pgSession.js";
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ app.use(
     extended: true,
   }),
 );
+
+app.use(sessionMiddleware);
 
 app.use("/dev/", devRouter);
 app.use("/", mainRouter);
